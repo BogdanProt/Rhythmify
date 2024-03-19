@@ -1,1 +1,1 @@
-# Rhytmify
+# Rhythmify
