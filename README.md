@@ -1,4 +1,8 @@
 # Rhythmify
+**Description**
+Rhythmify este o platforma de socializare web care pune accentul pe conexiunile muzicale dintre utilizatori. Cu o orientare mai puternica catre aspectele sociale decat cele muzicale, Rhythmify iti ofera posibilitatea de a te conecta cu alti useri pe baza gusturilor muzicale comune. Poti distribui postari si crea playlist-uri cu preview-uri ale melodiilor tale preferate, oferindu-ti astfel posibilitatea de a impartasi si de a descoperi muzica noua conectandu-te intr-un mod interactiv.
+
+
 **User Stories**
 1.	Ca utilizator nou, vreau sa imi pot crea cont in aplicatie folosind adresa de email, pentru a avea acces la toate functionalitatile aplicatiei.
 2.	Ca utilizator inregistrat, vreau sa pot personaliza profilul meu cu o fotografie de profil, o descriere si detalii despre gusturile mele muzicale, pentru a impartasi aceste informatii cu alti utilizatori.
