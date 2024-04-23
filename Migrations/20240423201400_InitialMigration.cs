@@ -7,11 +7,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Rhythmify.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedModels : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "Songs",
                 columns: table => new
@@ -131,7 +134,7 @@ namespace Rhythmify.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     SongID = table.Column<int>(type: "int", nullable: false)
                 },

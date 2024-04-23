@@ -10,6 +10,7 @@ namespace Rhythmify.Models
 		public DateTime Timestamp { get; set; }
 		public int UserID { get; set; }
 		public virtual User User { get; set; }
+		public ICollection<FeedPosts> FeedPosts { get; set; }
 	}
 }
 

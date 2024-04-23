@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Rhythmify")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+275ca7bf3f4d44bd20a76df657200ed03711e2d4")]
 [assembly: System.Reflection.AssemblyProductAttribute("Rhythmify")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Rhythmify")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

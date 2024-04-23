@@ -160,11 +160,11 @@ namespace Rhythmify.Migrations
                     b.Property<int>("SongID")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("UserID")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("timestamp")
-                        .HasColumnType("datetime(6)");
 
                     b.HasKey("PostID");
 
@@ -270,7 +270,7 @@ namespace Rhythmify.Migrations
             modelBuilder.Entity("Rhythmify.Models.Feed", b =>
                 {
                     b.HasOne("Rhythmify.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Feeds")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -281,13 +281,13 @@ namespace Rhythmify.Migrations
             modelBuilder.Entity("Rhythmify.Models.FeedPosts", b =>
                 {
                     b.HasOne("Rhythmify.Models.Feed", "Feed")
-                        .WithMany()
+                        .WithMany("FeedPosts")
                         .HasForeignKey("FeedID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Rhythmify.Models.Post", "Post")
-                        .WithMany()
+                        .WithMany("FeedPosts")
                         .HasForeignKey("PostID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -306,13 +306,13 @@ namespace Rhythmify.Migrations
                         .IsRequired();
 
                     b.HasOne("Rhythmify.Models.User", "Sender")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("SenderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Rhythmify.Models.Song", "Song")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("SongID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -344,7 +344,7 @@ namespace Rhythmify.Migrations
                         .IsRequired();
 
                     b.HasOne("Rhythmify.Models.Song", "Song")
-                        .WithMany()
+                        .WithMany("PlaylistSongs")
                         .HasForeignKey("SongID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -357,7 +357,7 @@ namespace Rhythmify.Migrations
             modelBuilder.Entity("Rhythmify.Models.Post", b =>
                 {
                     b.HasOne("Rhythmify.Models.Song", "Song")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("SongID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -382,7 +382,7 @@ namespace Rhythmify.Migrations
                         .IsRequired();
 
                     b.HasOne("Rhythmify.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Ratings")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -397,13 +397,29 @@ namespace Rhythmify.Migrations
                     b.Navigation("Messages");
                 });
 
+            modelBuilder.Entity("Rhythmify.Models.Feed", b =>
+                {
+                    b.Navigation("FeedPosts");
+                });
+
             modelBuilder.Entity("Rhythmify.Models.Playlist", b =>
                 {
                     b.Navigation("PlaylistSongs");
                 });
 
+            modelBuilder.Entity("Rhythmify.Models.Post", b =>
+                {
+                    b.Navigation("FeedPosts");
+                });
+
             modelBuilder.Entity("Rhythmify.Models.Song", b =>
                 {
+                    b.Navigation("Messages");
+
+                    b.Navigation("PlaylistSongs");
+
+                    b.Navigation("Posts");
+
                     b.Navigation("Ratings");
                 });
 
@@ -411,9 +427,15 @@ namespace Rhythmify.Migrations
                 {
                     b.Navigation("Conversations");
 
+                    b.Navigation("Feeds");
+
+                    b.Navigation("Messages");
+
                     b.Navigation("Playlists");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

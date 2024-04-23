@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Rhythmify.Models
@@ -11,6 +12,6 @@ namespace Rhythmify.Models
 		public virtual Playlist Playlist { get; set; }
 		public int SongID { get; set; }
 		public virtual Song Song { get; set; }
-	}
+    }
 }
 

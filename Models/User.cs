@@ -13,8 +13,11 @@ namespace Rhythmify.Models
 		public string Password { get; set; }
 		public string ProfilePicture { get; set; }
 		public string Description { get; set; }
+		public virtual ICollection<Feed> Feeds { get; set; }
 		public virtual ICollection<Playlist> Playlists { get; set; }
+		public virtual ICollection<Rating> Ratings { get; set; }
 		public virtual ICollection<Conversation> Conversations { get; set; }
+		public virtual ICollection<Message> Messages { get; set; }
 		public virtual ICollection<Post> Posts { get; set; }
 	}
 }

@@ -69,9 +69,10 @@
 /Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
 /Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/scopedcss/bundle/Rhythmify.styles.css
 /Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/scopedcss/projectbundle/Rhythmify.bundle.scp.css
-/Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/Rhythmify.csproj.Up2Date
 /Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/Rhythmify.dll
 /Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/refint/Rhythmify.dll
 /Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/Rhythmify.pdb
 /Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/Rhythmify.genruntimeconfig.cache
 /Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/ref/Rhythmify.dll
+/Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/Rhythmify.sourcelink.json
+/Users/bodipp/Projects/Rhythmify/Rhythmify/obj/Debug/net7.0/Rhythmify.csproj.Up2Date
