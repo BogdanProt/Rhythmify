@@ -1,0 +1,57 @@
+﻿@model Rhythmify.Models.User
+
+
+<style>
+    body {
+        margin-bottom: 60px;
+        background-color: #a29de3;
+        background-size: 100%;
+    }
+</style>
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Users",
+       method: FormMethod.Post, routeValues: new { id = @Model.Id }))
+{
+
+    <i class="bi bi-person"></i>
+    <b>@Html.Label("UserName", "Username:", new { @class = "" })</b>
+
+    <br />
+
+    @Html.EditorFor(m => m.UserName)
+
+    <br />
+    <br />
+
+    <i class="bi bi-envelope"></i>
+    <b>@Html.Label("Email", "Email:", new { @class = "" })</b>
+
+    <br />
+
+    @Html.EditorFor(m => m.Email)
+
+    <br />
+    <br />
+
+    <i class="bi bi-person"></i>
+    <b>@Html.Label("DisplayName", "Display Name:", new { @class = "" })</b>
+
+    <br />
+
+    @Html.EditorFor(m => m.DisplayName)
+
+    <br />
+    <br />
+
+    <i class="bi bi-card-list"></i>
+    <label><b>Selectati rolul</b></label>
+    @Html.DropDownList("newRole", new SelectList(Model.AllRoles, "Value", "Text", ViewBag.UserRole), null, new { @class = "form-control" })
+
+    <br />
+    <br />
+    <br />
+
+    <button class="btn btn-sm btn-success" type="submit">Editare user</button>
+
+
+}
+

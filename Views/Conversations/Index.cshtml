@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<style>
+    body {
+        margin-bottom: 60px;
+        background-color: #cf8955;
+        background-size: 100%;
+    }
+</style>
+<br />
+
+<h2 class="text-center">Afisare conversatii</h2>
+
+<br />
+
+@if (TempData["message"] != null)
+{
+    <div class="alert @ViewBag.Alert p-3 rounded-3 text-center mb-5">
+        @ViewBag.Message
+    </div>
+}
+
+<br />
+
+@foreach (Rhythmify.Models.Conversation conversation in ViewBag.Conversations)
+{
+    <div class="card">
+
+        @Html.Partial("ConversationInfo", conversation)
+
+
+        <a class="btn btn-success" href="/Conversations/Show/@conversation.Id">Afisare conversatie</a>
+
+    </div>
+
+    <br />
+    <br />
+
+}
+
+

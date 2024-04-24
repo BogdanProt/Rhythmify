@@ -6,11 +6,10 @@ namespace Rhythmify.Models
 	public class Feed
 	{
 		[Key]
-		public int FeedID { get; set; }
+		public int Id { get; set; }
 		public DateTime Timestamp { get; set; }
-		public int UserID { get; set; }
 		public virtual User User { get; set; }
-		public ICollection<FeedPosts> FeedPosts { get; set; }
+		public ICollection<Post> Posts { get; set; }
 	}
 }
 

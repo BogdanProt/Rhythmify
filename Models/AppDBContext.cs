@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
-using Pomelo.EntityFrameworkCore.MySql;
 
 
 namespace Rhythmify.Models
@@ -14,11 +13,15 @@ namespace Rhythmify.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "server=localhost;database=Rhythmify;uid=root;password=Password1!";
+            var connectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=RhythmifyDB;Integrated Security=True;Multiple Active Result Sets=True";
 
-            var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
+            //WINDOWS:
+            optionsBuilder.UseSqlServer(connectionString);
 
-            optionsBuilder.UseMySql(connectionString, serverVersion);
+            //MAC:
+            //var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
+
+            //optionsBuilder.UseMySql(connectionString, serverVersion);
         }
 
         public DbSet<User> Users { get; set; }

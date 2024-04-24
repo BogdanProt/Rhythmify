@@ -7,16 +7,17 @@ namespace Rhythmify.Models
 	public class Conversation
 	{
 		[Key]
-		public int ConversationID { get; set; }
+		public int Id { get; set; }
 		[Required]
-		public int SenderID { get; set; }
+		public string? UserName { get; set; }
+		public string? User1Id { get; set; }
 		[NotMapped]
-		public virtual User Sender { get; set; }
+		public virtual User? User1 { get; set; }
 		[Required]
-		public int ReceiverID { get; set; }
+		public string? User2Id { get; set; }
 		[NotMapped]
-		public virtual User Receiver { get; set; }
-		public virtual ICollection<Message> Messages { get; set; }
+		public virtual User? User2 { get; set; }
+		public virtual ICollection<Message>? Messages { get; set; }
 	}
 }
 
