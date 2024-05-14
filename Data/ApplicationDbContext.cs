@@ -21,6 +21,20 @@ namespace Rhythmify.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Feed> Feeds { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var connectionString = "server=localhost;uid=root;password=Password1!;database=Rhythmify";
+
+            var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
+
+            //WINDOWS:
+            //optionsBuilder.UseSqlServer(connectionString);
+
+            optionsBuilder.UseMySql(connectionString, serverVersion);
+        }
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

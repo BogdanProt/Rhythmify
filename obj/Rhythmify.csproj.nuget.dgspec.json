@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rei\\Desktop\\Rhythmify\\Rhythmify.csproj": {}
+    "/Users/bodipp/Projects/Rhythmify/Rhythmify/Rhythmify.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rei\\Desktop\\Rhythmify\\Rhythmify.csproj": {
+    "/Users/bodipp/Projects/Rhythmify/Rhythmify/Rhythmify.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rei\\Desktop\\Rhythmify\\Rhythmify.csproj",
+        "projectUniqueName": "/Users/bodipp/Projects/Rhythmify/Rhythmify/Rhythmify.csproj",
         "projectName": "Rhythmify",
-        "projectPath": "C:\\Users\\rei\\Desktop\\Rhythmify\\Rhythmify.csproj",
-        "packagesPath": "C:\\Users\\rei\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rei\\Desktop\\Rhythmify\\obj\\",
+        "projectPath": "/Users/bodipp/Projects/Rhythmify/Rhythmify/Rhythmify.csproj",
+        "packagesPath": "/Users/bodipp/.nuget/packages/",
+        "outputPath": "/Users/bodipp/Projects/Rhythmify/Rhythmify/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\rei\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/bodipp/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -49,6 +52,16 @@
               "version": "[7.0.11, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.11, )"
             },
@@ -84,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/RuntimeIdentifierGraph.json"
         }
       }
     }

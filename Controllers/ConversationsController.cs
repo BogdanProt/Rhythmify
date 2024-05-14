@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rhythmify.Data;
-using Rhythmify.Migrations;
 using Rhythmify.Models;
 using System;
 using System.Threading.Channels;
