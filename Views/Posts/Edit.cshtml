@@ -1,0 +1,37 @@
+﻿@model Rhythmify.Models.Post
+
+<h2 class="text-center mt-5">Editare articol</h2>
+
+<br />
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            @using (Html.BeginForm(actionName: "Edit", controllerName: "Posts", routeValues: new { id = Model.Id }))
+            {
+
+                <br />
+
+                @Html.Label("Content", "Continut Postare")
+
+                <br />
+
+                @Html.TextArea("Content", null, new { @class = "form-control" })
+
+                @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+                <br />
+
+                <br />
+
+                <br />
+
+                <button class="btn btn-success" type="submit">Adauga postare</button>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
