@@ -2,3 +2,4 @@ bin/
 Migrations/
 appsettings.json
 Program.cs
+Data/ApplicationDbContext.cs
