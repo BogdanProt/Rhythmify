@@ -13,7 +13,7 @@ namespace Rhythmify.Models
         // pentru popularea unui dropdown list
         [NotMapped]
         public IEnumerable<SelectListItem>? AllRoles { get; set; }
-		public string? DisplayName;
+		public string? DisplayName { get; set; }
 		public string? ProfilePicture { get; set; }
 		public string? Description { get; set; }
 		public virtual ICollection<Feed>? Feeds { get; set; }

@@ -1,0 +1,37 @@
+﻿
+
+<h2 class="text-center">Afisare postari</h2>
+
+<br />
+
+@if(ViewBag.Message != null){
+
+    <h2 class="alert-success p-3 rounded-3 text-center mb-5">@ViewBag.Message</h2>
+}
+
+
+<div class="d-flex justify-content-center">
+
+    <a class="btn btn-outline-success" href="/Posts/New">Adauga postare</a>
+    <br />
+
+</div>
+
+<br />
+
+
+@foreach (Rhythmify.Models.Post post in ViewBag.Posts)
+{
+    <div class="card">
+
+        @Html.Partial("PostInfo",post)
+
+        <a class="btn btn-success" href="/Articles/Show/@post.Id">Afisare Postare</a>
+                
+    </div>
+
+    <br />
+    <br />
+}
+
+

@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Rhythmify.Models.User
+
+@if(Model !=null)
+{
+<div class="card-body">
+
+    <h3 class="card-title alert-success py-3 px-3 rounded-
+2">
+    
+        @Model.UserName | @Model.Email
+    </h3>
+    <div class="card-text">@Model.PhoneNumber</div>
+    <div class="card-text">@Model.Description</div>
+</div>
+}
+else
+{
+    <h1>user does not exist</h1>
+}
