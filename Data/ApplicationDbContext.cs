@@ -23,14 +23,14 @@ namespace Rhythmify.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=RhythmifyDB;Integrated Security=True;Multiple Active Result Sets=True";
+            var connectionString = "server=localhost;database=Rhythmify;user=root;password=Password1!";
 
-            //var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
+            var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
 
             //WINDOWS:
-            optionsBuilder.UseSqlServer(connectionString);
+            //optionsBuilder.UseSqlServer(connectionString);
 
-            //optionsBuilder.UseMySql(connectionString, serverVersion);
+            optionsBuilder.UseMySql(connectionString, serverVersion);
         }
 
 

@@ -4,15 +4,23 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Rhythmify.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="appsettings.json">
     <Files>
-      <File FileName="Rhythmify.csproj" Line="1" Column="1" />
+      <File FileName="appsettings.json" Line="3" Column="92" />
+      <File FileName="Program.cs" Line="36" Column="44" />
+      <File FileName="Data/ApplicationDbContext.cs" Line="31" Column="15" />
+      <File FileName="Models/Conversation.cs" Line="1" Column="1" />
+      <File FileName="Controllers/ConversationsController.cs" Line="7" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Rhythmify">
-            <Node name="Rhythmify" selected="True" />
+            <Node name="Rhythmify">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Data" expanded="True" />
+              <Node name="Models" expanded="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
