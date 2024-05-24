@@ -1,9 +1,0 @@
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.csproj.AssemblyReference.cache
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.AssemblyInfoInputs.cache
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.AssemblyInfo.cs
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.csproj.CoreCompileInputs.cache
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.RazorAssemblyInfo.cache
-C:\Users\rei\Desktop\Rhythmify\obj\Debug\net6.0\Rhythmify.RazorAssemblyInfo.cs

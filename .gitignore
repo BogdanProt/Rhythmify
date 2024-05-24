@@ -1,5 +1,8 @@
 bin/
 Migrations/
 appsettings.json
-Program.cs
 Data/ApplicationDbContext.cs
+obj/
+ScaffoldingReadMe.txt
+.vs/
+.DS_Store
