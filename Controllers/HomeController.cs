@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Rhythmify.Models;
+using SpotifyAPI.Web;
 using System.Diagnostics;
 
 namespace Rhythmify.Controllers
@@ -28,5 +29,8 @@ namespace Rhythmify.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    }
+
+      }
+
+
 }
