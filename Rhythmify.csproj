@@ -15,9 +15,13 @@
 
   <ItemGroup>
     <None Remove="Migrations\" />
+    <None Remove="Services\" />
+    <None Remove="Views\Spotify\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Services\" />
+    <Folder Include="Views\Spotify\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Posts\Edit.cshtml" />

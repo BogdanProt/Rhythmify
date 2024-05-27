@@ -1,0 +1,17 @@
+﻿@model SpotifyAPI.Web.SearchResponse
+
+<h1>Search Spotify Tracks</h1>
+<form method="post" asp-action="Search">
+    <input type="text" name="query" placeholder="Enter song name" />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model != null && Model.Tracks != null && Model.Tracks.Items != null)
+{
+    <ul>
+        @foreach (var item in Model.Tracks.Items)
+        {
+            <li>@item.Name by @item.Artists[0].Name</li>
+        }
+    </ul>
+}
