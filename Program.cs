@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Rhythmify.Data;
 using Rhythmify.Models;
+using Rhythmify.Services;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 
@@ -17,6 +18,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
+builder.Services.AddSingleton<SpotifyService>();
+
 
 builder.Services.AddAuthorization(options =>
 {
@@ -26,7 +29,6 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAuthenticatedUser();
     });
 });
-
 
 
 builder.Services.AddAuthentication()
