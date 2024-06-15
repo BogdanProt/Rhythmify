@@ -28,14 +28,12 @@ namespace ArticlesApp.Controllers
 
             _roleManager = roleManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var posts = db.Posts;
-
-            foreach (Rhythmify.Models.Post p in posts)
-            {
-                p.User = db.Users.Where(u => u.Id == p.UserId).FirstOrDefault();
-            }
+            var posts = await db.Posts
+                                .Include(p => p.User)
+                                .AsNoTracking()
+                                .ToListAsync();
 
             ViewBag.Posts = posts;
 
@@ -47,15 +45,22 @@ namespace ArticlesApp.Controllers
             return View();
         }
 
-        public IActionResult Show(int id)
+
+        public async Task<IActionResult> Show(int id)
         {
-            Post post = db.Posts
-                              .Where(p => p.Id == id)
-                              .First();
-            //adauga comentariile de la postare
-            post.User = db.Users.Where(u => u.Id == post.UserId).FirstOrDefault();
+            var post = await db.Posts
+                               .Include(p => p.User)
+                               .AsNoTracking()
+                               .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
             return View(post);
         }
+
 
         /*[HttpPost]
         public IActionResult Show([FromForm] Comment comm)
