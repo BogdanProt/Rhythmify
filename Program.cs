@@ -48,6 +48,8 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IConnectionService, ConnectionService>();
+
 
 var app = builder.Build();
 

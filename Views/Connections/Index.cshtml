@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Rhythmify.Models.User>
+
+<h2>Social</h2>
+
+<a class="btn btn-primary" asp-action="Search">Find new people</a>
+
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var user in Model)
+        {
+            <li>
+                @user.DisplayName (@user.UserName)
+                <form asp-action="RemoveConnection" method="post">
+                    <input type="hidden" name="friendId" value="@user.Id" />
+                    <button type="submit">Remove follow</button>
+                </form>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>You have no connections.</p>
+}

@@ -31,9 +31,10 @@ namespace ArticlesApp.Controllers
         public async Task<IActionResult> Index()
         {
             var posts = await db.Posts
-                                .Include(p => p.User)
-                                .AsNoTracking()
-                                .ToListAsync();
+                        .Include(p => p.User)
+                        .OrderByDescending(p => p.Timestamp)
+                        .AsNoTracking()
+                        .ToListAsync();
 
             ViewBag.Posts = posts;
 
