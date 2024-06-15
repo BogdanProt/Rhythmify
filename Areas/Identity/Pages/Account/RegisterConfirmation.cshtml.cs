@@ -73,7 +73,7 @@ namespace Rhythmify.Areas.Identity.Pages.Account
                     values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                     protocol: Request.Scheme);
             }
-
+            await _userManager.AddToRoleAsync(user, "User");
             return Page();
         }
     }
