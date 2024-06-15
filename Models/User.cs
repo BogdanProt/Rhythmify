@@ -22,5 +22,7 @@ namespace Rhythmify.Models
         public virtual ICollection<Conversation>? Conversations { get; set; }
         public virtual ICollection<Message>? Messages { get; set; }
         public virtual ICollection<Post>? Posts { get; set; }
+        public virtual ICollection<Connection>? Connections { get; set; }
+
     }
 }
