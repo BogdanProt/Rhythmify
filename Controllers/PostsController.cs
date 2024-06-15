@@ -75,26 +75,46 @@ namespace ArticlesApp.Controllers
                 return NotFound();
             }
 
+            var userId = _userManager.GetUserId(User);
             var likes = await db.Likes.Where(l => l.PostId == id).CountAsync();
+            var userLiked = await db.Likes.AnyAsync(l => l.PostId == id && l.UserId == userId);
+
             ViewBag.Likes = likes;
+            ViewBag.UserLiked = userLiked;
 
             return View(post);
         }
 
-        public async Task<IActionResult> Like(int postId)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ToggleLike([FromBody] ToggleLikeRequest request)
         {
             var userId = _userManager.GetUserId(User);
-            var existingLike = await db.Likes.FirstOrDefaultAsync(l => l.PostId == postId && l.UserId == userId);
+            var existingLike = await db.Likes.FirstOrDefaultAsync(l => l.PostId == request.PostId && l.UserId == userId);
 
             if (existingLike == null)
             {
-                var like = new Like { PostId = postId, UserId = userId };
+                var like = new Like { PostId = request.PostId, UserId = userId };
                 db.Likes.Add(like);
-                await db.SaveChangesAsync();
+            }
+            else
+            {
+                db.Likes.Remove(existingLike);
             }
 
-            return RedirectToAction("Show", new { id = postId });
+            await db.SaveChangesAsync();
+
+            var likesCount = await db.Likes.CountAsync(l => l.PostId == request.PostId);
+            return Json(new { likes = likesCount, liked = existingLike == null });
         }
+
+        public class ToggleLikeRequest
+        {
+            public int PostId { get; set; }
+        }
+
+
 
 
         [HttpPost]

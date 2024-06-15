@@ -28,9 +28,12 @@
 <br />
 
 <!-- Buton de like și afișare număr de like-uri -->
-<form method="post" action="/Posts/Like">
-    <input type="hidden" name="postId" value="@Model.Id" />
-    <button type="submit" class="btn btn-primary">Like</button> @ViewBag.Likes like-uri
+<form id="likeForm">
+    <input type="hidden" id="postId" value="@Model.Id" />
+    <button type="button" id="likeButton" class="btn">
+        <i id="heartIcon" class="bi bi-heart" style="font-size: 2rem; color: @(ViewBag.UserLiked ? "red" : "grey");"></i>
+    </button>
+    <span id="likesCount">@ViewBag.Likes</span> likes
 </form>
 
 <hr />
@@ -56,3 +59,29 @@
     </div>
     <button type="submit" class="btn btn-success">Adaugă comentariul</button>
 </form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>$(document).ready(function () {
+            $('#likeButton').click(function () {
+                var postId = $('#postId').val();
+                var token = $('input[name="__RequestVerificationToken"]').val();
+
+                $.ajax({
+                    url: '/Posts/ToggleLike',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { 'RequestVerificationToken': token },
+                    data: JSON.stringify({ postId: postId }),
+                    success: function (data) {
+                        $('#likesCount').text(data.likes);
+                        $('#heartIcon').css('color', data.liked ? 'red' : 'grey');
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });</script>
+}
+
