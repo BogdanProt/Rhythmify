@@ -6,18 +6,18 @@
 
 @model Rhythmify.Models.User
 
-@if(Model !=null)
+@if (Model != null)
 {
-<div class="card-body">
+    <div class="card-body">
 
-    <h3 class="card-title alert-success py-3 px-3 rounded-
+        <h3 class="card-title alert-success py-3 px-3 rounded-
 2">
-    
-        @Model.UserName | @Model.Email
-    </h3>
-    <div class="card-text">@Model.PhoneNumber</div>
-    <div class="card-text">@Model.Description</div>
-</div>
+
+            @Model.UserName | @Model.Email
+        </h3>
+        <div class="card-text">@Model.PhoneNumber</div>
+        <div class="card-text">@Model.Description</div>
+    </div>
 }
 else
 {

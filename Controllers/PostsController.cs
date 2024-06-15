@@ -32,7 +32,11 @@ namespace ArticlesApp.Controllers
         {
             var posts = db.Posts;
 
-            // ViewBag.OriceDenumireSugestiva
+            foreach (Rhythmify.Models.Post p in posts)
+            {
+                p.User = db.Users.Where(u => u.Id == p.UserId).FirstOrDefault();
+            }
+
             ViewBag.Posts = posts;
 
             if (TempData.ContainsKey("message"))
@@ -49,7 +53,7 @@ namespace ArticlesApp.Controllers
                               .Where(p => p.Id == id)
                               .First();
             //adauga comentariile de la postare
-
+            post.User = db.Users.Where(u => u.Id == post.UserId).FirstOrDefault();
             return View(post);
         }
 
@@ -91,16 +95,16 @@ namespace ArticlesApp.Controllers
         [HttpPost]
         public IActionResult New(Post post)
         {
-            post.Timestamp= DateTime.Now;
+            post.Timestamp = DateTime.Now;
             post.User = db.Users.Find(_userManager.GetUserId(User));
-            
+
             if (ModelState.IsValid)
             {
                 db.Posts.Add(post);
                 db.SaveChanges();
 
                 TempData["message"] = "Postarea a fost adaugata!!";
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             else
             {
@@ -110,12 +114,12 @@ namespace ArticlesApp.Controllers
 
         public IActionResult Edit(int id)
         {
-            
-                Post post = db.Posts
-                                             .Where(p => p.Id == id)
-                                             .First();
 
-                return View(post);
+            Post post = db.Posts
+                                         .Where(p => p.Id == id)
+                                         .First();
+
+            return View(post);
 
         }
 
@@ -148,4 +152,3 @@ namespace ArticlesApp.Controllers
         }
     }
 }
-

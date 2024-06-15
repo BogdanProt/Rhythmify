@@ -11,13 +11,13 @@
 <br />
 <div class="container mt-5">
     <div class="row">
-        <div class="col-6 offset-3"> 
+        <div class="col-6 offset-3">
 
             @using (Html.BeginForm(actionName: "New", controllerName: "Conversations",
-            method: FormMethod.Post))
+           method: FormMethod.Post))
             {
 
-                @Html.ValidationSummary(false, "", new { @class = "text-danger" })  
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
                 @Html.Label("UserName", "Username-ul cautat")
                 <br />
@@ -25,13 +25,12 @@
                 <br /><br />
 
                 <button class="btn btn-success" type="submit">Creeaza conversatie</button>
-            
+
             }
-            
+
         </div>
     </div>
 </div>
-
 
 
 

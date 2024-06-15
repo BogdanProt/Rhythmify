@@ -8,10 +8,25 @@
 
 @if (Model != null && Model.Tracks != null && Model.Tracks.Items != null)
 {
+    int i = 0;
     <ul>
         @foreach (var item in Model.Tracks.Items)
         {
+            i += 1;
             <li>@item.Name by @item.Artists[0].Name</li>
+            <div id="embed-iframe-@i"></div>
+            <script>
+                window.onSpotifyIframeApiReady = (IFrameAPI) => {
+                    let element = document.getElementById('embed-iframe-@i');
+                    let options = {
+                        width: '50%',
+                        height: '160',
+                        uri: '@item.Uri'
+                    };
+                    let callback = (EmbedController) => { };
+                    IFrameAPI.createController(element, options, callback);
+                };
+            </script>
         }
     </ul>
 }

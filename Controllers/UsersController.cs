@@ -84,7 +84,7 @@ namespace Rhythmify.Controllers
             {
                 user.UserName = newData.UserName;
                 user.Email = newData.Email;
-                user.DisplayName=newData.DisplayName;
+                user.DisplayName = newData.DisplayName;
 
                 // Cautam toate rolurile din baza de date
                 var roles = db.Roles.ToList();

@@ -4,7 +4,8 @@
 
 <br />
 
-@if(ViewBag.Message != null){
+@if (ViewBag.Message != null)
+{
 
     <h2 class="alert-success p-3 rounded-3 text-center mb-5">@ViewBag.Message</h2>
 }
@@ -24,14 +25,13 @@
 {
     <div class="card">
 
-        @Html.Partial("PostInfo",post)
+        @Html.Partial("PostInfo", post)
 
-        <a class="btn btn-success" href="/Articles/Show/@post.Id">Afisare Postare</a>
-                
+        <a class="btn btn-success" href="/Posts/Show/@post.Id">Afisare Postare</a>
+
     </div>
 
     <br />
     <br />
 }
-
 

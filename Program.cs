@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(connectionString,new MySqlServerVersion(new Version(8, 3, 0))));
+options.UseMySql(connectionString,new MySqlServerVersion(new Version(8, 3, 0))));
 // PT WINDOWS
 //options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -34,8 +34,8 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddAuthentication()
     .AddSpotify(options =>
     {
-        options.ClientId = "CLIENT_ID";
-        options.ClientSecret = "CLIENT_SECRET";
+        options.ClientId = "d2d70f2bfbfb4f2594339fc8916b16a1";
+        options.ClientSecret = "3894a81b65754b039d84817bb52ea144";
         options.CallbackPath = "/callback";
         options.Events.OnRemoteFailure = (Context) =>
         {

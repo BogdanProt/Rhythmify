@@ -1,6 +1,5 @@
 ﻿@model Rhythmify.Models.Conversation
 
-
 @* Afisarea unei conversatii *@
 
 @if (TempData["message"] != null)
@@ -14,53 +13,53 @@
 
 <div class="card">
 
-    @Html.Partial("ConversationInfo", Model) 
+    @Html.Partial("ConversationInfo", Model)
 
 </div>
 
 <br />
 <br />
 
-    @* Afisarea formularului in care se poate adauga un mesaj *@
+@* Afisarea formularului in care se poate adauga un mesaj *@
 
-    <div class="container">
+<div class="container">
 
-        <div class="row">
+    <div class="row">
 
-            <div class="col-md-2"></div>
+        <div class="col-md-2"></div>
 
-            <div class="col-md-8">
+        <div class="col-md-8">
 
-                <div class="card">
+            <div class="card">
 
-                    <form method="post" action="/Conversations/Show/@Model.Id">
+                <form method="post" action="/Conversations/Show/@Model.Id">
 
-                        <div class="card-body">
+                    <div class="card-body">
 
-                            <input type="hidden" name="ConversationID" value="@Model.Id" />
+                        <input type="hidden" name="ConversationID" value="@Model.Id" />
 
-                            <label>Continut mesaj</label>
+                        <label>Continut mesaj</label>
 
-                            <br />
+                        <br />
 
-                            @Html.TextArea("Content", null, new { @class = "summernote" })
-                            @Html.ValidationMessage("Content", null, new { @class = "text-danger"})
+                        @Html.TextArea("Content", null, new { @class = "summernote" })
+                        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
 
-                            <br /><br />
+                        <br /><br />
 
-                            <button class="btn btn-success " type="submit">Adauga mesajul</button>
+                        <button class="btn btn-success " type="submit">Adauga mesajul</button>
 
-                        </div>
+                    </div>
 
-                    </form>
-
-                </div>
+                </form>
 
             </div>
 
-            <div class="col-md-2"></div>
-
         </div>
 
+        <div class="col-md-2"></div>
+
     </div>
+
+</div>
 }
