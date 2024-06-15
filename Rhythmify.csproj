@@ -17,11 +17,13 @@
     <None Remove="Migrations\" />
     <None Remove="Services\" />
     <None Remove="Views\Spotify\" />
+    <None Remove="Views\Connections\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
     <Folder Include="Views\Spotify\" />
+    <Folder Include="Views\Connections\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Posts\Edit.cshtml" />

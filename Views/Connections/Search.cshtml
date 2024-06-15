@@ -1,0 +1,29 @@
+﻿@model IEnumerable<UserSearchResult>
+
+<form asp-action="Search" method="post">
+    <input type="text" name="searchTerm" placeholder="Search users..." />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model != null)
+{
+    <ul>
+        @foreach (var result in Model)
+        {
+            <li>
+                @result.User.DisplayName (@result.User.UserName)
+                @if (result.IsConnected)
+                {
+                    <button disabled>Already connected</button>
+                }
+                else
+                {
+                    <form asp-action="AddConnection" method="post">
+                        <input type="hidden" name="friendId" value="@result.User.Id" />
+                        <button type="submit">Add connection</button>
+                    </form>
+                }
+            </li>
+        }
+    </ul>
+}
