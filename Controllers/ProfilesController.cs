@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Rhythmify.Data;
 using Rhythmify.Models;
 
@@ -29,7 +30,7 @@ namespace Rhythmify.Controllers
         {
             try
             {
-                User u = db.Users.Find(id);
+                User u = db.Users.Where(u => u.DisplayName == id).FirstOrDefault();
                 return View(u);
             }
             catch (Exception ex)

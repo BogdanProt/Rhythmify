@@ -1,4 +1,4 @@
-﻿@model Rhythmify.Models.Conversation
+﻿@model Rhythmify.Models.User
 
 <style>
     body {
@@ -19,9 +19,9 @@
 
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-                @Html.Label("UserName", "Username-ul cautat")
+                @Html.Label("DisplayName", "Display name-ul cautat")
                 <br />
-                @Html.TextBox("UserName", null, new { @class = "form-control" })
+                @Html.TextBox("DisplayName", null, new { @class = "form-control" })
                 <br /><br />
 
                 <button class="btn btn-success" type="submit">Creeaza conversatie</button>

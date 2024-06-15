@@ -9,7 +9,6 @@ namespace Rhythmify.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string? UserName { get; set; }
         public string? User1Id { get; set; }
         [NotMapped]
         public virtual User? User1 { get; set; }

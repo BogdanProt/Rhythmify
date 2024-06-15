@@ -15,18 +15,21 @@
             i += 1;
             <li>@item.Name by @item.Artists[0].Name</li>
             <div id="embed-iframe-@i"></div>
-            <script>
-                window.onSpotifyIframeApiReady = (IFrameAPI) => {
-                    let element = document.getElementById('embed-iframe-@i');
-                    let options = {
-                        width: '50%',
-                        height: '160',
-                        uri: '@item.Uri'
-                    };
-                    let callback = (EmbedController) => { };
-                    IFrameAPI.createController(element, options, callback);
-                };
-            </script>
         }
     </ul>
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async=""></script>
+    <script>
+        window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        @for (int j = 1; j <= i; j++)
+        {
+            <text>
+                IFrameAPI.createController(document.getElementById('embed-iframe-@j'), {
+                    width: '50%',
+                    height: '160',
+                    uri: '@Model.Tracks.Items[j-1].Uri'
+                }, (EmbedController) => { });
+            </text>
+        }
+                };
+    </script>
 }
