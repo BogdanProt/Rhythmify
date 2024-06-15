@@ -27,95 +27,32 @@
 <br />
 <br />
 
+<!-- Buton de like și afișare număr de like-uri -->
+<form method="post" action="/Posts/Like">
+    <input type="hidden" name="postId" value="@Model.Id" />
+    <button type="submit" class="btn btn-primary">Like</button> @ViewBag.Likes like-uri
+</form>
 
-@* Afisare comentarii impreuna cu butoanele de editare si stergere *@
+<hr />
 
-@* @foreach (var comm in Model.Comments)
-    {
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2"></div>
+<!-- Afișare comentarii -->
+<h4>Comentarii:</h4>
+@foreach (var comment in Model.Comments)
+{
+    <div class="comment">
+        <p><strong>@comment.User.UserName:</strong> @comment.Content</p>
+        <small>@comment.Timestamp</small>
+    </div>
+}
 
-                <div class="col-md-8">
+<hr />
 
-                    <div>
-
-                        <p>@comm.Content</p>
-                        <small>@comm.Date</small>
-
-                    </div>
-                    <br>
-
-                    <div class="d-flex">
-
-                        <div>
-
-                            <a class="btn btn-outline-primary" href="/Comments/Edit/@comm.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
-
-                        </div>
-
-                        <div>
-
-                            <form method="post" action="/Comments/Delete/@comm.Id">
-
-                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
-
-                            </form>
-
-                        </div>
-
-                    </div>
-
-                    <br />
-
-                </div>
-
-                <div class="col-md-2"></div>
-
-            </div>
-
-        </div>
-    }
-*@
-
-@* Afisarea formularului in care se poate adauga un comentariu *@
-
-@* <div class="container">
-
-        <div class="row">
-
-            <div class="col-md-2"></div>
-
-            <div class="col-md-8">
-
-                <div class="card">
-
-                    <form method="post" action="/Articles/Show">
-
-                        <div class="card-body">
-
-                            <input type="hidden" name="ArticleId" value="@Model.Id" />
-
-                            <label>Continut comentariu</label>
-                            <br />
-
-                            <textarea class="form-control" name="Content"></textarea>
-                            <br />
-
-                            @Html.ValidationMessage("Content", null, new {@class = "text-danger"})
-                            <br /> <br />
-                            <button class="btn btn-success " type="submit">Adauga comentariul</button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-2"></div>
-
-        </div>
-
-    </div> *@
+<!-- Formular pentru adăugare comentariu -->
+<form method="post" action="/Posts/AddComment">
+    <input type="hidden" name="postId" value="@Model.Id" />
+    <div class="form-group">
+        <label for="content">Adaugă un comentariu:</label>
+        <textarea class="form-control" name="content" id="content" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Adaugă comentariul</button>
+</form>
