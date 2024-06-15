@@ -127,20 +127,21 @@ namespace Rhythmify.Controllers
         [HttpGet]
         public IActionResult Show(int id)
         {
-            Conversation currentConversation = db.Conversations.Find(id);
+            Conversation currentConversation = db.Conversations.Include("Messages").Include(c => c.User1)
+    .Include(c => c.User2).Where(c => c.Id == id).First();
             if (currentConversation != null)
             {
-                if (currentConversation.User1Id == _userManager.GetUserId(User))
-                {
-                    ViewBag.Sender = db.Users.Find(currentConversation.User1Id);
-                    ViewBag.Receiver = db.Users.Find(currentConversation.User2Id);
-                }
-                else
-                {
-                    ViewBag.Sender = db.Users.Find(currentConversation.User2Id);
-                    ViewBag.Receiver = db.Users.Find(currentConversation.User1Id);
-                }
-                ViewBag.Conversation = currentConversation;
+                //if (currentConversation.User1Id == _userManager.GetUserId(User))
+                //{
+                //    ViewBag.Sender = db.Users.Find(currentConversation.User1Id);
+                //    ViewBag.Receiver = db.Users.Find(currentConversation.User2Id);
+                //}
+                //else
+                //{
+                //    ViewBag.Sender = db.Users.Find(currentConversation.User2Id);
+                //    ViewBag.Receiver = db.Users.Find(currentConversation.User1Id);
+                //}
+                //ViewBag.Conversation = currentConversation;
                 return View(currentConversation);
             }
             return View(null);
@@ -152,22 +153,15 @@ namespace Rhythmify.Controllers
             msg.Sender = db.Users.Find(_userManager.GetUserId(User));
             System.Diagnostics.Debug.WriteLine(msg.Content);
             System.Diagnostics.Debug.WriteLine(msg.ConversationID);
+            Conversation currentConversation = db.Conversations.Include("Messages").Include(c => c.User1)
+    .Include(c => c.User2).Where(c => c.Id == msg.ConversationID).First();
 
             if (ModelState.IsValid)
             {
                 db.Messages.Add(msg);
                 db.SaveChanges();
-                return View(db.Conversations.Find(msg.ConversationID));
-
             }
-
-            else
-            {
-                Conversation c = db.Conversations.Include("Messages")
-                              .Where(c => c.Id == msg.ConversationID).First();
-
-                return View(db.Conversations.Find(msg.ConversationID));
-            }
+            return View(currentConversation);
         }
     }
 }

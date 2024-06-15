@@ -13,12 +13,43 @@
 
 <div class="card">
 
-    @*<h3>Conversatie intre @ViewBag.User1.DisplayName si @ViewBag.User2.DisplayName</h3>*@
-
+    <h3>Conversatie intre @Model.User1.DisplayName si @Model.User2.DisplayName</h3>
 </div>
 
 <br />
 <br />
+
+@* Afisare comentarii impreuna cu butoanele de editare si stergere *@
+
+@foreach (var msg in Model.Messages)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+
+                <div>
+
+                    <p>@msg.Content</p>
+                    <small>@msg.Timestamp</small>
+                    <strong><i class="bi bi-person"></i>@msg.Sender.UserName</strong>
+
+                </div>
+                <br>
+
+                @* to add edit and delete by adding access rights*@
+
+                <br />
+
+            </div>
+
+            <div class="col-md-2"></div>
+
+        </div>
+
+    </div>
+}
 
 @* Afisarea formularului in care se poate adauga un mesaj *@
 
