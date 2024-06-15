@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,11 +32,21 @@ namespace ArticlesApp.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var connections = await db.Connections
+                                      .Where(c => c.UserId == currentUser.Id)
+                                      .Select(c => c.FriendId)
+                                      .ToListAsync();
+
+            // Include postările utilizatorului curent
+            connections.Add(currentUser.Id);
+
             var posts = await db.Posts
-                        .Include(p => p.User)
-                        .OrderByDescending(p => p.Timestamp)
-                        .AsNoTracking()
-                        .ToListAsync();
+                                .Include(p => p.User)
+                                .Where(p => connections.Contains(p.UserId))
+                                .OrderByDescending(p => p.Timestamp)
+                                .AsNoTracking()
+                                .ToListAsync();
 
             ViewBag.Posts = posts;
 
@@ -47,10 +59,14 @@ namespace ArticlesApp.Controllers
         }
 
 
+
+
         public async Task<IActionResult> Show(int id)
         {
             var post = await db.Posts
                                .Include(p => p.User)
+                               .Include(p => p.Comments)
+                               .ThenInclude(c => c.User)
                                .AsNoTracking()
                                .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -59,35 +75,46 @@ namespace ArticlesApp.Controllers
                 return NotFound();
             }
 
+            var likes = await db.Likes.Where(l => l.PostId == id).CountAsync();
+            ViewBag.Likes = likes;
+
             return View(post);
         }
 
-
-        /*[HttpPost]
-        public IActionResult Show([FromForm] Comment comm)
+        public async Task<IActionResult> Like(int postId)
         {
-            comm.Date = DateTime.Now;
+            var userId = _userManager.GetUserId(User);
+            var existingLike = await db.Likes.FirstOrDefaultAsync(l => l.PostId == postId && l.UserId == userId);
 
-            if (ModelState.IsValid)
+            if (existingLike == null)
             {
-                db.Comments.Add(comm);
-                db.SaveChanges();
-                return Redirect("/Articles/Show/" + comm.ArticleId);
-
+                var like = new Like { PostId = postId, UserId = userId };
+                db.Likes.Add(like);
+                await db.SaveChangesAsync();
             }
 
-            else
+            return RedirectToAction("Show", new { id = postId });
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(int postId, string content)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var comment = new Comment
             {
-                Article art = db.Articles.Include("Category").Include("Comments")
-                              .Where(art => art.Id == comm.ArticleId).First();
+                Content = content,
+                Timestamp = DateTime.Now,
+                PostId = postId,
+                UserId = userId
+            };
 
-                return View(art);
-            }
-        }*/
+            db.Comments.Add(comment);
+            await db.SaveChangesAsync();
 
-        // Se afiseaza formularul in care se vor completa datele unui articol
-        // impreuna cu selectarea categoriei din care face parte
-        // HttpGet implicit
+            return RedirectToAction("Show", new { id = postId });
+        }
 
         public IActionResult New()
         {
@@ -118,27 +145,46 @@ namespace ArticlesApp.Controllers
             }
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
+            var post = await db.Posts.FindAsync(id);
 
-            Post post = db.Posts
-                                         .Where(p => p.Id == id)
-                                         .First();
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (post.UserId != currentUser.Id)
+            {
+                return Forbid();
+            }
 
             return View(post);
-
         }
 
         // Se adauga articolul modificat in baza de date
         [HttpPost]
-        public IActionResult Edit(int id, Post rqpost)
+        public async Task<IActionResult> Edit(int id, Post rqpost)
         {
-            Post post = db.Posts.Find(id);
+            var post = await db.Posts.FindAsync(id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (post.UserId != currentUser.Id)
+            {
+                return Forbid();
+            }
+
             if (ModelState.IsValid)
             {
                 post.Content = rqpost.Content;
                 TempData["message"] = "Postarea a fost modificata!!";
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             else
