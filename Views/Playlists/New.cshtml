@@ -1,0 +1,47 @@
+﻿@model Rhythmify.Models.Playlist
+
+@{
+    ViewBag.Title = "Create Playlist";
+}
+
+<h2 class="text-center mt-5">Adaugare playlist</h2>
+
+<br />
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 offset-3">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            @using (Html.BeginForm(actionName: "New", controllerName: "Playlists"))
+            {
+
+                @Html.Label("Title", "Titlu")
+
+                <br />
+
+                @Html.TextArea("Title", null, new { @class = "form-control" })
+
+                @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
+                <br />
+
+                <br />
+                @Html.Label("Description", "Descriere")
+
+                <br />
+
+                @Html.TextArea("Description", null, new { @class = "form-control" })
+
+                @Html.ValidationMessage("Description", null, new { @class = "text-danger" })
+                <br />
+
+                <br />
+                //adauga piesa si alte detalii
+
+                <button class="btn btn-success" type="submit">Adauga playlist</button>
+            }
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

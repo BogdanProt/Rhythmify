@@ -96,23 +96,25 @@ namespace Rhythmify.Controllers
                     {
                         c.User2Id = receiver.Id;
                         System.Diagnostics.Debug.WriteLine("model valid");
-                        Conversation search = db.Conversations.Where(u => (u.User1Id == c.User1Id && u.User2Id == c.User2Id) || (u.User2Id == c.User1Id && u.User1Id == c.User2Id)).First();
+                        Conversation search = db.Conversations.Where(u => (u.User1Id == c.User1Id && u.User2Id == c.User2Id) || (u.User2Id == c.User1Id && u.User1Id == c.User2Id)).FirstOrDefault();
                         if (search == null)
                         {
                             db.Conversations.Add(c);
                             db.SaveChanges();
+                            return RedirectToAction("Index");
                         }
-                        RedirectToAction("Show", user.DisplayName);
+                        else c=search; 
+                        
                     }
-                    else if (user.DisplayName != senderId)
+                    if (user.DisplayName != senderId)
                     {
                         System.Diagnostics.Debug.WriteLine("redirect show");
-                        RedirectToAction("Show", user.DisplayName);
+                        return RedirectToAction("Show", new { id = c.Id });
                     }
                     else
                     {
                         System.Diagnostics.Debug.WriteLine("redirect index");
-                        RedirectToAction("Index");
+                        return RedirectToAction("Index");
                     }
                 }
             }
@@ -128,7 +130,7 @@ namespace Rhythmify.Controllers
         public IActionResult Show(int id)
         {
             Conversation currentConversation = db.Conversations.Include("Messages").Include(c => c.User1)
-    .Include(c => c.User2).Where(c => c.Id == id).First();
+    .Include(c => c.User2).Where(c => c.Id == id).FirstOrDefault();
             if (currentConversation != null)
             {
                 //if (currentConversation.User1Id == _userManager.GetUserId(User))

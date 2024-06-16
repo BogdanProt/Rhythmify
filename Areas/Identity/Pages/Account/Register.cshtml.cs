@@ -30,13 +30,15 @@ namespace Rhythmify.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +46,7 @@ namespace Rhythmify.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         /// <summary>
@@ -75,6 +78,8 @@ namespace Rhythmify.Areas.Identity.Pages.Account
             [DataType(DataType.Text)]
             [Display(Name = "Display Name")]
             public string DisplayName { get; set; }
+
+            public IFormFile ProfilePicture { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -121,6 +126,25 @@ namespace Rhythmify.Areas.Identity.Pages.Account
 
                 // adaug displayname
                 user.DisplayName = Input.DisplayName;
+
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                if (Input.ProfilePicture != null)
+                {
+                    // Save the profile picture to a location and get the URL
+                    var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", Input.ProfilePicture.FileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Input.ProfilePicture.CopyToAsync(stream);
+                    }
+                    user.ProfilePicture = "/uploads/" + Input.ProfilePicture.FileName;
+                }
+
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
