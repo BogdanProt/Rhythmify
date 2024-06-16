@@ -13,5 +13,7 @@ namespace Rhythmify.Models
         public virtual User? User { get; set; }
         public int? SongId { get; set; }
         public virtual Song? Song { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
     }
 }

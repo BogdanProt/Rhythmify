@@ -1,128 +1,87 @@
-﻿@model Rhythmify.Models.Post
+@model Rhythmify.Models.Post
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
 
-
-@* Afisarea unui articol impreuna cu categoria din care face *@
 <div class="d-flex justify-content-center">
-
     <a class="btn btn-outline-success" href="/Posts/Index/">Afisare postari</a>
-
     <a class="btn btn-outline-success" href="/Posts/New">Adauga postare</a>
-
 </div>
 
 <br />
 
-@Html.Partial("PostInfo",Model)
+@Html.Partial("PostInfo", Model)
 
-    <hr />
+<hr />
 
+@if (await UserManager.GetUserIdAsync(UserManager.GetUserAsync(User).Result) == Model.UserId)
+{
     <div class="d-flex flex-row justify-content-between">
-
-
-
         <a class="btn btn-success" href="/Posts/Edit/@Model.Id">Editeaza postare</a>
 
         <form method="post" action="/Posts/Delete/@Model.Id">
-
             <button class="btn btn-danger" type="submit">Sterge postare</button>
-
         </form>
-
-    </div>
-
-</div>
-
-<br />
-<br />
-
-@* Afisare comentarii impreuna cu butoanele de editare si stergere *@
-
-@* @foreach (var comm in Model.Comments)
-{
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-
-            <div class="col-md-8">
-
-                <div>
-
-                    <p>@comm.Content</p>
-                    <small>@comm.Date</small>
-
-                </div>
-                <br>
-
-                <div class="d-flex">
-
-                    <div>
-
-                        <a class="btn btn-outline-primary" href="/Comments/Edit/@comm.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
-
-                    </div>
-
-                    <div>
-
-                        <form method="post" action="/Comments/Delete/@comm.Id">
-
-                            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
-                <br />
-
-            </div>
-
-            <div class="col-md-2"></div>
-
-        </div>
-
     </div>
 }
- *@
 
-@* Afisarea formularului in care se poate adauga un comentariu *@
+<br />
+<br />
 
-@* <div class="container">
+<!-- Buton de like și afișare număr de like-uri -->
+<form id="likeForm">
+    <input type="hidden" id="postId" value="@Model.Id" />
+    <button type="button" id="likeButton" class="btn">
+        <i id="heartIcon" class="bi bi-heart" style="font-size: 2rem; color: @(ViewBag.UserLiked ? "red" : "grey");"></i>
+    </button>
+    <span id="likesCount">@ViewBag.Likes</span> likes
+</form>
 
-    <div class="row">
+<hr />
 
-        <div class="col-md-2"></div>
-
-        <div class="col-md-8">
-
-            <div class="card">
-
-                <form method="post" action="/Articles/Show">
-
-                    <div class="card-body">
-
-                        <input type="hidden" name="ArticleId" value="@Model.Id" />
-
-                        <label>Continut comentariu</label>
-                        <br />
-
-                        <textarea class="form-control" name="Content"></textarea>
-                        <br />
-
-                        @Html.ValidationMessage("Content", null, new {@class = "text-danger"})
-                        <br /> <br />
-                        <button class="btn btn-success " type="submit">Adauga comentariul</button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-2"></div>
-
+<!-- Afișare comentarii -->
+<h4>Comentarii:</h4>
+@foreach (var comment in Model.Comments)
+{
+    <div class="comment">
+        <p><strong>@comment.User.UserName:</strong> @comment.Content</p>
+        <small>@comment.Timestamp</small>
     </div>
+}
 
-</div> *@
+<hr />
+
+<!-- Formular pentru adăugare comentariu -->
+<form method="post" action="/Posts/AddComment">
+    <input type="hidden" name="postId" value="@Model.Id" />
+    <div class="form-group">
+        <label for="content">Adaugă un comentariu:</label>
+        <textarea class="form-control" name="content" id="content" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Adaugă comentariul</button>
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>$(document).ready(function () {
+            $('#likeButton').click(function () {
+                var postId = $('#postId').val();
+                var token = $('input[name="__RequestVerificationToken"]').val();
+
+                $.ajax({
+                    url: '/Posts/ToggleLike',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { 'RequestVerificationToken': token },
+                    data: JSON.stringify({ postId: postId }),
+                    success: function (data) {
+                        $('#likesCount').text(data.likes);
+                        $('#heartIcon').css('color', data.liked ? 'red' : 'grey');
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });</script>
+}
+
