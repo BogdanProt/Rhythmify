@@ -31,6 +31,9 @@ namespace ArticlesApp.Controllers
 
             _roleManager = roleManager;
         }
+
+        // Index afiseaza toate postarile utilizatorului curent si ale conexiunilor sale
+
         [Authorize]
         public async Task<IActionResult> Index()
         {
@@ -61,6 +64,7 @@ namespace ArticlesApp.Controllers
         }
 
 
+        // Show afiseaza detaliile unei postari specifice
 
         [Authorize]
         public async Task<IActionResult> Show(int id)
@@ -87,6 +91,8 @@ namespace ArticlesApp.Controllers
             return View(post);
         }
 
+
+        // ToggleLike adauga sau elimina un like pentru o postare
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -117,7 +123,7 @@ namespace ArticlesApp.Controllers
             public int PostId { get; set; }
         }
 
-
+        // AddComment adauga un comentariu la o postare
 
         [HttpPost]
         [Authorize]

@@ -41,6 +41,8 @@ namespace Rhythmify.Controllers
             return View();
         }
 
+        // Search cu metoda POST cauta melodii pe Spotify
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Search(string query)
@@ -49,11 +51,18 @@ namespace Rhythmify.Controllers
             TempData["Playlists"] = GetAllPlaylists();
             return View("Index", result);
         }
+
+        // Index cu metoda POST adauga o melodie intr-un playlist
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> Index(Song song, [FromForm] string playlistId)
         {
+
+            // Cauta melodia existenta in baza de date dupa PreviewUrl
             var existingSong = await db.Songs.SingleOrDefaultAsync(s => s.PreviewUrl == song.PreviewUrl);
+
+            // Cauta playlist-ul specificat si include relatiile necesare
             var playlist = await db.Playlists
                 .Include(p => p.PlaylistSongs)
                     .ThenInclude(ps => ps.Song)
@@ -72,20 +81,20 @@ namespace Rhythmify.Controllers
                 }
                 else
                 {
-                    // Attach the existing song to the context if not already attached
+                    // Ataseaza melodia existenta la context daca nu este deja atasata
                     if (!db.Entry(existingSong).IsKeySet)
                     {
                         db.Songs.Attach(existingSong);
                     }
                 }
 
-                // Ensure the PlaylistSongs collection is initialized
+                // Initializeaza colectia PlaylistSongs daca este necesar
                 if (playlist.PlaylistSongs == null)
                 {
                     playlist.PlaylistSongs = new List<PlaylistSong>();
                 }
 
-                // Add the song to the playlist if it's not already added
+                // Adauga melodia in playlist daca nu este deja adaugata
                 if (!playlist.PlaylistSongs.Any(ps => ps.SongId == existingSong.Id))
                 {
                     playlist.PlaylistSongs.Add(new PlaylistSong { PlaylistId = playlist.Id, SongId = existingSong.Id, TimeAdded=DateTime.Now });
@@ -96,6 +105,8 @@ namespace Rhythmify.Controllers
             return View("Index");
 
         }
+
+        // Selecteaza toate playlisturile utilizatorului
         [NonAction]
         public IEnumerable<SelectListItem> GetAllPlaylists()
         {

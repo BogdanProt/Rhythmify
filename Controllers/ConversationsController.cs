@@ -27,11 +27,16 @@ namespace Rhythmify.Controllers
 
             _roleManager = roleManager;
         }
+
+        // Index afiseaza conversatiile utilizatorului curent
+
         [Authorize]
         public IActionResult Index()
         {
             String userId = _userManager.GetUserId(User);
             List<Conversation> lc = new List<Conversation>();
+
+            // Daca utilizatorul curent este autentificat, obtine conversatiile acestuia
             if (userId != null)
                 lc = db.Conversations.Where(u => u.User1Id == userId || u.User2Id == userId).ToList();
             ViewBag.Conversations = lc;
@@ -46,7 +51,9 @@ namespace Rhythmify.Controllers
             return View();
         }
 
-        
+
+        // New cu metoda POST adauga o noua conversatie
+
         [HttpPost]
         [Authorize]
         public IActionResult New(User user)
@@ -65,6 +72,8 @@ namespace Rhythmify.Controllers
                     c.User2 = receiver;
                     c.User1Id = senderId;
 
+                    // Adauga conversatia doar daca utilizatorul destinatar este valid si nu exista deja o conversatie
+
                     if (receiver != null && c.User1Id != c.User2Id)
                     {
                         c.User2Id = receiver.Id;
@@ -78,6 +87,8 @@ namespace Rhythmify.Controllers
                         else c=search; 
                         
                     }
+                    // Redirectioneaza catre conversatia nou creata sau afiseaza un mesaj de eroare
+
                     if (user.UserName != senderId && receiver!=null)
                     {
                         return RedirectToAction("Show", new { id = c.Id });
@@ -91,12 +102,17 @@ namespace Rhythmify.Controllers
             }
             return View();
         }
+
+        // New cu metoda GET afiseaza formularul pentru adaugarea unei noi conversatii
+
         [HttpGet]
         [Authorize]
         public IActionResult New()
         {
             return View();
         }
+
+        // Show cu metoda GET afiseaza o conversatie specifica
 
         [HttpGet]
         [Authorize]
@@ -110,6 +126,9 @@ namespace Rhythmify.Controllers
             }
             return View(null);
         }
+
+        // Show cu metoda POST adauga un mesaj nou in conversatie
+
         [HttpPost]
         [Authorize]
         public IActionResult Show([FromForm] Message msg)
@@ -124,6 +143,8 @@ namespace Rhythmify.Controllers
                 db.Messages.Add(msg);
                 db.SaveChanges();
             }
+
+            // Reincarca conversatia curenta pentru a include noul mesaj
 
             Conversation currentConversation = db.Conversations
                 .Include(c => c.Messages)

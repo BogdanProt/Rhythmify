@@ -20,6 +20,8 @@ public class ConnectionsController : Controller
         return View();
     }
 
+
+    // Search cu metoda POST cauta utilizatori pe baza termenului de cautare
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Search(string searchTerm)
@@ -33,6 +35,7 @@ public class ConnectionsController : Controller
         return View(model);
     }
 
+    // AddConnection adauga o conexiune pentru utilizatorul curent
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> AddConnection(string friendId)
@@ -41,6 +44,8 @@ public class ConnectionsController : Controller
         await _connectionService.AddConnectionAsync(user.Id, friendId);
         return RedirectToAction("Index", "Connections");
     }
+
+    // Actiunea RemoveConnection elimina o conexiune pentru utilizatorul curent
 
     [HttpPost]
     [Authorize]
@@ -51,6 +56,7 @@ public class ConnectionsController : Controller
         return RedirectToAction("Index", "Connections");
     }
 
+    // Index afiseaza toate conexiunile utilizatorului curent
 
     [Authorize]
     public async Task<IActionResult> Index()

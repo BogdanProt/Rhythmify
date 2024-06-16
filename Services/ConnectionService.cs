@@ -4,10 +4,10 @@ using Rhythmify.Models;
 
 public interface IConnectionService
 {
-    Task<IEnumerable<User>> SearchUsersAsync(string searchTerm);
-    Task AddConnectionAsync(string userId, string friendId);
-    Task RemoveConnectionAsync(string userId, string friendId); // Adaugă această linie
-    Task<IEnumerable<User>> GetConnectionsAsync(string userId);
+    Task<IEnumerable<User>> SearchUsersAsync(string searchTerm); // Interfata pentru cautarea utilizatorilor
+    Task AddConnectionAsync(string userId, string friendId); // Interfata pentru adaugarea unei conexiuni
+    Task RemoveConnectionAsync(string userId, string friendId); // Interfata pentru eliminarea unei conexiuni
+    Task<IEnumerable<User>> GetConnectionsAsync(string userId); // Interfata pentru obtinerea conexiunilor unui utilizator
 }
 
 
@@ -20,6 +20,8 @@ public class ConnectionService : IConnectionService
         _context = context;
     }
 
+    // Metoda pentru cautarea utilizatorilor pe baza termenului de cautare
+
     public async Task<IEnumerable<User>> SearchUsersAsync(string searchTerm)
     {
         return await _context.Users
@@ -27,13 +29,19 @@ public class ConnectionService : IConnectionService
             .ToListAsync();
     }
 
+    // Metoda pentru adaugarea unei conexiuni
+
     public async Task AddConnectionAsync(string userId, string friendId)
     {
+        // Verifica daca conexiunea exista deja
+
         var existingConnection = await _context.Connections
             .FirstOrDefaultAsync(c => c.UserId == userId && c.FriendId == friendId);
 
         if (existingConnection == null)
         {
+            // Creeaza o noua conexiune daca nu exista
+
             var connection = new Connection
             {
                 UserId = userId,
@@ -44,8 +52,12 @@ public class ConnectionService : IConnectionService
         }
     }
 
+    // Metoda pentru eliminarea unei conexiuni
+
     public async Task RemoveConnectionAsync(string userId, string friendId)
     {
+        // Gaseste conexiunea dintre utilizator si prieten
+
         var connection = await _context.Connections
             .FirstOrDefaultAsync(c => c.UserId == userId && c.FriendId == friendId);
 
@@ -55,6 +67,8 @@ public class ConnectionService : IConnectionService
             await _context.SaveChangesAsync();
         }
     }
+
+    // Metoda pentru obtinerea conexiunilor unui utilizator
 
     public async Task<IEnumerable<User>> GetConnectionsAsync(string userId)
     {

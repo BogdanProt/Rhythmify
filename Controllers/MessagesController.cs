@@ -14,6 +14,8 @@ namespace Rhythmify.Controllers
             db = context;
         }
 
+        // New cu metoda POST adauga un mesaj nou
+
         [HttpPost]
         [Authorize]
         public IActionResult New(Message mess)
@@ -45,6 +47,9 @@ namespace Rhythmify.Controllers
             return Redirect("/Conversations/Show/" + mess.ConversationID);
         }
 
+
+        // Afisarea formularului de editare pentru un mesaj
+
         [Authorize]
         public IActionResult Edit(int id)
         {
@@ -52,6 +57,8 @@ namespace Rhythmify.Controllers
             ViewBag.Message = mess;
             return View();
         }
+
+        // Edit cu metoda POST actualizeaza un mesaj existent
 
         [HttpPost]
         [Authorize]

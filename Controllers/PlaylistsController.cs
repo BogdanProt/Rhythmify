@@ -30,6 +30,8 @@ namespace Rhythmify.Controllers
             _roleManager = roleManager;
         }
 
+        // Index afiseaza toate playlist-urile
+
         [Authorize]
         public ActionResult Index()
         {
@@ -43,11 +45,15 @@ namespace Rhythmify.Controllers
             return View();
         }
 
+        // New cu metoda POST adauga un nou playlist
+
         [HttpPost]
         public ActionResult New(Playlist playlist)
         {
             if (ModelState.IsValid)
             {
+                // Seteaza utilizatorul curent ca proprietar al playlist-ului
+
                 var userId = _userManager.GetUserId(User);
                 playlist.User = db.Users.Find(userId);
                 db.Playlists.Add(playlist);
@@ -57,6 +63,8 @@ namespace Rhythmify.Controllers
 
             return View(playlist);
         }
+
+        // Show afiseaza detaliile unui playlist specific
 
         [Authorize]
         public ActionResult Show(int id)
@@ -68,6 +76,9 @@ namespace Rhythmify.Controllers
     .FirstOrDefault(p => p.Id == id);
             return View(playlist);
         }
+
+        // Delete cu metoda POST sterge un playlist
+
         [HttpPost]
         [Authorize]
         public ActionResult Delete(int id)
