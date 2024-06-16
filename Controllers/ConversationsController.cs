@@ -52,16 +52,13 @@ namespace Rhythmify.Controllers
         public IActionResult New(User user)
         {
             System.Diagnostics.Debug.WriteLine(user.UserName);
-            System.Diagnostics.Debug.WriteLine("asdnjasdijsadfsad");
             if (user.UserName != null)
             {
-                System.Diagnostics.Debug.WriteLine("intrat lol");
                 User receiver = db.Users.Where(u => u.UserName == user.UserName).FirstOrDefault();
                 String senderId = _userManager.GetUserId(User);
                 User sender = null;
                 if (senderId != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("sender not null");
                     sender = db.Users.Find(senderId);
                     Conversation c = new Conversation();
                     c.User1 = sender;
@@ -71,7 +68,6 @@ namespace Rhythmify.Controllers
                     if (receiver != null && c.User1Id != c.User2Id)
                     {
                         c.User2Id = receiver.Id;
-                        System.Diagnostics.Debug.WriteLine("model valid");
                         Conversation search = db.Conversations.Where(u => (u.User1Id == c.User1Id && u.User2Id == c.User2Id) || (u.User2Id == c.User1Id && u.User1Id == c.User2Id)).FirstOrDefault();
                         if (search == null)
                         {
@@ -82,15 +78,14 @@ namespace Rhythmify.Controllers
                         else c=search; 
                         
                     }
-                    if (user.UserName != senderId)
+                    if (user.UserName != senderId && receiver!=null)
                     {
-                        System.Diagnostics.Debug.WriteLine("redirect show");
                         return RedirectToAction("Show", new { id = c.Id });
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine("redirect index");
-                        return RedirectToAction("Index");
+                        TempData["message"] = "Nu exista user-ul " +user.UserName;
+                        return View();
                     }
                 }
             }

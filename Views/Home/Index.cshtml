@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home";
+    var userName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
 }
 
 <div class="hero-section text-white text-center" style="background: url('/images/Music.jpg') no-repeat center center; background-size: cover; padding: 100px 0;">
@@ -7,7 +8,14 @@
         <h1 class="display-4">Welcome to Rhythmify!</h1>
         <h4 class="display-6">The Social App for Sharing Music</h4>
         <p class="lead mt-4">Discover new music, share your favorites, and connect with friends.</p>
-        <a href="/Account/Register" class="btn btn-primary btn-lg mt-3">Join Now</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a href="/Profiles/Show/@userName" class="btn btn-primary btn-lg mt-3">Go to Your Profile</a>
+        }
+        else
+        {
+            <a href="/Identity/Account/Register" class="btn btn-primary btn-lg mt-3">Join Now</a>
+        }
     </div>
 </div>
 
@@ -43,6 +51,13 @@
     <div class="container">
         <h2>Ready to Join Rhythmify?</h2>
         <p class="lead">Sign up now and start sharing your favorite music!</p>
-        <a href="/Account/Register" class="btn btn-primary btn-lg">Sign Up</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a href="/Profiles/Show/@userName" class="btn btn-primary btn-lg">Go to Your Profile</a>
+        }
+        else
+        {
+            <a href="/Identity/Account/Register" class="btn btn-primary btn-lg">Sign Up</a>
+        }
     </div>
 </div>
