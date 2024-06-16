@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ using Rhythmify.Models;
 
 namespace Rhythmify.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
@@ -49,66 +51,44 @@ namespace Rhythmify.Areas.Identity.Pages.Account
             _webHostEnvironment = webHostEnvironment;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Username")]
+            public string Username { get; set; }
+
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Display Name")]
             public string DisplayName { get; set; }
 
+            [Display(Name = "Profile Picture (optional)")]
             public IFormFile ProfilePicture { get; set; }
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -122,34 +102,51 @@ namespace Rhythmify.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                if (Input.Username == Input.Email)
+                {
+                    ModelState.AddModelError(string.Empty, "Username cannot be the same as the email.");
+                    return Page();
+                }
+
                 var user = CreateUser();
 
-                // adaug displayname
                 user.DisplayName = Input.DisplayName;
-
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
 
                 if (Input.ProfilePicture != null)
                 {
-                    // Save the profile picture to a location and get the URL
-                    var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", Input.ProfilePicture.FileName);
+                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    // Validate file type
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    var fileExtension = Path.GetExtension(Input.ProfilePicture.FileName).ToLower();
+                    if (!allowedExtensions.Contains(fileExtension))
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.");
+                        return Page();
+                    }
+
+                    // Generate a unique filename
+                    var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await Input.ProfilePicture.CopyToAsync(stream);
                     }
-                    user.ProfilePicture = "/uploads/" + Input.ProfilePicture.FileName;
+                    user.ProfilePicture = "/uploads/" + uniqueFileName;
+                }
+                else
+                {
+                    user.ProfilePicture = "/uploads/RHYTHMIFY.PNG";
                 }
 
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                //await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

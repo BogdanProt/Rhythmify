@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rhythmify.Data;
@@ -26,6 +27,7 @@ namespace Rhythmify.Controllers
 
             _roleManager = roleManager;
         }
+        [Authorize]
         public IActionResult Index()
         {
             String userId = _userManager.GetUserId(User);
@@ -43,44 +45,18 @@ namespace Rhythmify.Controllers
             ViewBag.ReceiverUsers = receiverUsers;
             return View();
         }
-        /*[HttpPost]
-        public IActionResult New(string id)
-        {
-            User receiver= db.Users.Where(u=>u.DisplayName==id).FirstOrDefault();
-            String senderId = _userManager.GetUserId(User);
-            User sender = null;
-            if (senderId!=null)
-            {
-                sender = db.Users.Find(senderId);
-                Conversation c=new Conversation();
-                c.User1 = sender;
-                c.User2 = receiver;
-                c.User1Id = senderId;
-                c.User2Id = receiver.Id;
-                if(ModelState.IsValid)
-                {
-                    db.SaveChanges();
-                    RedirectToAction("Show", id);
-                }
-                if (id != senderId)
-                {
-                    RedirectToAction("Show", id);
-                }
-                else RedirectToAction("Index");
-            }
 
-            return View();
-        }*/
-
+        
         [HttpPost]
+        [Authorize]
         public IActionResult New(User user)
         {
-            System.Diagnostics.Debug.WriteLine(user.DisplayName);
+            System.Diagnostics.Debug.WriteLine(user.UserName);
             System.Diagnostics.Debug.WriteLine("asdnjasdijsadfsad");
-            if (user.DisplayName != null)
+            if (user.UserName != null)
             {
                 System.Diagnostics.Debug.WriteLine("intrat lol");
-                User receiver = db.Users.Where(u => u.DisplayName == user.DisplayName).FirstOrDefault();
+                User receiver = db.Users.Where(u => u.UserName == user.UserName).FirstOrDefault();
                 String senderId = _userManager.GetUserId(User);
                 User sender = null;
                 if (senderId != null)
@@ -106,7 +82,7 @@ namespace Rhythmify.Controllers
                         else c=search; 
                         
                     }
-                    if (user.DisplayName != senderId)
+                    if (user.UserName != senderId)
                     {
                         System.Diagnostics.Debug.WriteLine("redirect show");
                         return RedirectToAction("Show", new { id = c.Id });
@@ -121,48 +97,53 @@ namespace Rhythmify.Controllers
             return View();
         }
         [HttpGet]
+        [Authorize]
         public IActionResult New()
         {
             return View();
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Show(int id)
         {
             Conversation currentConversation = db.Conversations.Include("Messages").Include(c => c.User1)
     .Include(c => c.User2).Where(c => c.Id == id).FirstOrDefault();
             if (currentConversation != null)
             {
-                //if (currentConversation.User1Id == _userManager.GetUserId(User))
-                //{
-                //    ViewBag.Sender = db.Users.Find(currentConversation.User1Id);
-                //    ViewBag.Receiver = db.Users.Find(currentConversation.User2Id);
-                //}
-                //else
-                //{
-                //    ViewBag.Sender = db.Users.Find(currentConversation.User2Id);
-                //    ViewBag.Receiver = db.Users.Find(currentConversation.User1Id);
-                //}
-                //ViewBag.Conversation = currentConversation;
                 return View(currentConversation);
             }
             return View(null);
         }
         [HttpPost]
+        [Authorize]
         public IActionResult Show([FromForm] Message msg)
         {
             msg.Timestamp = DateTime.Now;
             msg.Sender = db.Users.Find(_userManager.GetUserId(User));
             System.Diagnostics.Debug.WriteLine(msg.Content);
             System.Diagnostics.Debug.WriteLine(msg.ConversationID);
-            Conversation currentConversation = db.Conversations.Include("Messages").Include(c => c.User1)
-    .Include(c => c.User2).Where(c => c.Id == msg.ConversationID).First();
 
             if (ModelState.IsValid)
             {
                 db.Messages.Add(msg);
                 db.SaveChanges();
             }
+
+            Conversation currentConversation = db.Conversations
+                .Include(c => c.Messages)
+                .Include(c => c.User1)
+                .Include(c => c.User2)
+                .Where(c => c.Id == msg.ConversationID)
+                .FirstOrDefault();
+
+            if (currentConversation != null)
+            {
+                currentConversation.Messages = currentConversation.Messages
+                    .OrderByDescending(m => m.Timestamp)
+                    .ToList();
+            }
+
             return View(currentConversation);
         }
     }

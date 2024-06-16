@@ -3,8 +3,8 @@
 @inject UserManager<User> UserManager
 
 <div class="d-flex justify-content-center">
-    <a class="btn btn-outline-success" href="/Posts/Index/">Afisare postari</a>
-    <a class="btn btn-outline-success" href="/Posts/New">Adauga postare</a>
+    <a class="btn btn-outline-success" href="/Posts/Index/">Back to Posts</a>
+    <a class="btn btn-outline-success" href="/Posts/New">New Posts</a>
 </div>
 
 <br />
@@ -27,7 +27,7 @@
 <br />
 <br />
 
-<!-- Buton de like și afișare număr de like-uri -->
+<!-- Buton de like si afisare număr de like-uri -->
 <form id="likeForm">
     <input type="hidden" id="postId" value="@Model.Id" />
     <button type="button" id="likeButton" class="btn">
@@ -38,26 +38,37 @@
 
 <hr />
 
-<!-- Afișare comentarii -->
+<!-- Afisare comentarii -->
 <h4>Comentarii:</h4>
 @foreach (var comment in Model.Comments)
 {
-    <div class="comment">
-        <p><strong>@comment.User.UserName:</strong> @comment.Content</p>
-        <small>@comment.Timestamp</small>
+    <div class="comment mb-3 p-3 border rounded shadow-sm">
+        <div class="d-flex align-items-center mb-2">
+            <a href="/Profiles/Show/@comment.User.UserName">
+            <img src="@comment.User.ProfilePicture" alt="@comment.User.UserName's Profile Picture" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+            </a>
+            <div>
+                <a href="/Profiles/Show/@comment.User.UserName" class="text-decoration-none text-reset">
+                <strong>@comment.User.UserName</strong>
+                </a>
+                <br>
+                <small class="text-muted">@comment.Timestamp.ToString("f")</small>
+            </div>
+        </div>
+        <p class="mb-0">@comment.Content</p>
     </div>
 }
 
 <hr />
 
-<!-- Formular pentru adăugare comentariu -->
+<!-- Formular pentru adaugare comentariu -->
 <form method="post" action="/Posts/AddComment">
     <input type="hidden" name="postId" value="@Model.Id" />
     <div class="form-group">
         <label for="content">Adaugă un comentariu:</label>
         <textarea class="form-control" name="content" id="content" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-success">Adaugă comentariul</button>
+    <button type="submit" class="btn btn-success">Add Comment</button>
 </form>
 
 @section Scripts {

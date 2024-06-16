@@ -1,13 +1,8 @@
 ﻿@model Rhythmify.Models.User
+@{
+    ViewBag.Title = "Edit User";
+}
 
-
-<style>
-    body {
-        margin-bottom: 60px;
-        background-color: #a29de3;
-        background-size: 100%;
-    }
-</style>
 @using (Html.BeginForm(actionName: "Edit", controllerName: "Users",
       method: FormMethod.Post, routeValues: new { id = @Model.Id }))
 {

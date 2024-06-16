@@ -1,7 +1,10 @@
 ﻿@model Rhythmify.Models.Post
 
+@{
+    ViewBag.Title = "New Playlist";
+}
 
-<h2 class="text-center mt-5">Adaugare postare</h2>
+<h2 class="text-center mt-5">Add Post</h2>
 
 <br />
 
@@ -12,7 +15,7 @@
             @using (Html.BeginForm(actionName: "New", controllerName: "Posts"))
             {
 
-                @Html.Label("Content", "Continut postare")
+                @Html.Label("Content", "Content")
 
                 <br />
 
@@ -20,10 +23,8 @@
 
                 @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
                 <br /><br />
-                 
-                //adauga piesa si alte detalii
 
-                <button class="btn btn-success" type="submit">Adauga postare</button>
+                <button class="btn btn-success" type="submit">Add Post</button>
             }
         </div>
     </div>

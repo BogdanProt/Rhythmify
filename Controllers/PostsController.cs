@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,6 +31,7 @@ namespace ArticlesApp.Controllers
 
             _roleManager = roleManager;
         }
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -38,7 +40,7 @@ namespace ArticlesApp.Controllers
                                       .Select(c => c.FriendId)
                                       .ToListAsync();
 
-            // Include postările utilizatorului curent
+            // Include postarile utilizatorului curent
             connections.Add(currentUser.Id);
 
             var posts = await db.Posts
@@ -60,7 +62,7 @@ namespace ArticlesApp.Controllers
 
 
 
-
+        [Authorize]
         public async Task<IActionResult> Show(int id)
         {
             var post = await db.Posts
@@ -88,6 +90,7 @@ namespace ArticlesApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> ToggleLike([FromBody] ToggleLikeRequest request)
         {
             var userId = _userManager.GetUserId(User);
@@ -116,8 +119,8 @@ namespace ArticlesApp.Controllers
 
 
 
-
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddComment(int postId, string content)
         {
             var userId = _userManager.GetUserId(User);
@@ -136,6 +139,7 @@ namespace ArticlesApp.Controllers
             return RedirectToAction("Show", new { id = postId });
         }
 
+        [Authorize]
         public IActionResult New()
         {
 
@@ -146,6 +150,7 @@ namespace ArticlesApp.Controllers
 
         // Se adauga articolul in baza de date
         [HttpPost]
+        [Authorize]
         public IActionResult New(Post post)
         {
             post.Timestamp = DateTime.Now;
@@ -165,6 +170,7 @@ namespace ArticlesApp.Controllers
             }
         }
 
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
             var post = await db.Posts.FindAsync(id);
@@ -185,6 +191,7 @@ namespace ArticlesApp.Controllers
 
         // Se adauga articolul modificat in baza de date
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, Post rqpost)
         {
             var post = await db.Posts.FindAsync(id);
@@ -214,6 +221,7 @@ namespace ArticlesApp.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
             Post post = db.Posts.Find(id);

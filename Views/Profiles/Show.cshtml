@@ -8,7 +8,7 @@
 
 @if (Model != null)
 {
-    @if(Model.ProfilePicture!=null)
+    @if (Model.ProfilePicture != null)
     {
         ViewBag.ProfilePicture = Model.ProfilePicture;
     }
@@ -16,11 +16,11 @@
     {
         ViewBag.ProfilePicture = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp";
     }
-    <section class="vh-100">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col col-md-9 col-lg-7 col-xl-5">
-                    <div class="card" style="border-radius: 15px;">
+    <section>
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4" style="border-radius: 15px;">
                         <div class="card-body p-4">
                             <div class="d-flex text-black">
                                 <div class="flex-shrink-0">
@@ -29,16 +29,16 @@
                                 <div class="flex-grow-1 ms-3">
                                     <h5 class="mb-1">@Model.DisplayName</h5>
                                     <p class="mb-2 pb-1" style="color: #2b2a2a;">@Model.UserName</p>
-                                    <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
-                                        <div>
+                                    <div class="d-flex justify-content-between rounded-3 p-2 mb-2" style="background-color: #efefef;">
+                                        <div class="text-center">
                                             <p class="small text-muted mb-1">Posts</p>
                                             <p class="mb-0">@ViewBag.PostCount</p>
                                         </div>
-                                        <div class="px-3">
+                                        <div class="text-center">
                                             <p class="small text-muted mb-1">Followers</p>
                                             <p class="mb-0">@ViewBag.Followers</p>
                                         </div>
-                                        <div class="px-3">
+                                        <div class="text-center">
                                             <p class="small text-muted mb-1">Playlists</p>
                                             <p class="mb-0">@ViewBag.PlaylistCount</p>
                                         </div>
@@ -48,45 +48,48 @@
                                             <input type="hidden" name="displayName" id="displayName" value="@Model.DisplayName" />
                                             <button type="submit" class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
                                         </form>
-                                        <form id="followForm" asp-controller="Connections" asp-action="AddConnection" method="post">
-                                            <input type="hidden" name="friendId" id="friendId" value="@Model.Id" />
-                                            <button type="submit" class="btn btn-primary flex-grow-1">Follow</button>
-                                        </form>
+                                        @if (User.Identity.Name != Model.UserName)
+                                        {
+                                            @if (ViewBag.Connected == true)
+                                            {
+                                                <form id="unfollowForm" asp-controller="Connections" asp-action="RemoveConnection" method="post">
+                                                    <input type="hidden" name="friendId" id="friendId" value="@Model.Id" />
+                                                    <button type="submit" class="btn btn-primary flex-grow-1">Unfollow</button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form id="followForm" asp-controller="Connections" asp-action="AddConnection" method="post">
+                                                    <input type="hidden" name="friendId" id="friendId" value="@Model.Id" />
+                                                    <button type="submit" class="btn btn-primary flex-grow-1">Follow</button>
+                                                </form>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-8">
+                    <h3>Posts</h3>
+                    <div class="post-list">
+                        @foreach (Rhythmify.Models.Post post in ViewBag.Posts)
+                        {
+                            @Html.Partial("PostInfo", post)
+                        }
+                    </div>
+                    <h3 class="mt-4">Playlists</h3>
+                    <div class="playlist-list">
+                        @foreach (Rhythmify.Models.Playlist playlist in ViewBag.Playlists)
+                        {
+                            @Html.Partial("PlaylistInfo", playlist)
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    @foreach (Rhythmify.Models.Post post in ViewBag.Posts)
-    {
-        <div class="card">
-
-            @Html.Partial("PostInfo", post)
-
-            <a class="btn btn-success" href="/Posts/Show/@post.Id">Afisare Postare</a>
-
-        </div>
-
-        <br />
-        <br />
-    }
-    @foreach (Rhythmify.Models.Playlist playlist in ViewBag.Playlists)
-    {
-        <div class="card">
-
-            @Html.Partial("PlaylistInfo", playlist)
-
-            <a class="btn btn-success" href="/Playlists/Show/@playlist.Id">Afisare Playlist</a>
-
-        </div>
-
-        <br />
-        <br />
-    }
 }
 else
 {

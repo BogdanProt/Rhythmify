@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rhythmify.Data;
 using Rhythmify.Models;
 
@@ -14,6 +15,7 @@ namespace Rhythmify.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult New(Message mess)
         {
             mess.Timestamp = DateTime.Now;
@@ -34,6 +36,7 @@ namespace Rhythmify.Controllers
 
         // Stergerea unui mesaj asociat unui canal din baza de date
         [HttpPost]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             Message mess = db.Messages.Find(id);
@@ -42,9 +45,7 @@ namespace Rhythmify.Controllers
             return Redirect("/Conversations/Show/" + mess.ConversationID);
         }
 
-        // In acest moment vom implementa editarea intr-o pagina View separata
-        // Se editeaza un mesaj existent
-
+        [Authorize]
         public IActionResult Edit(int id)
         {
             Message mess = db.Messages.Find(id);
@@ -53,6 +54,7 @@ namespace Rhythmify.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Edit(int id, Message requestMessage)
         {
             Message mess = db.Messages.Find(id);

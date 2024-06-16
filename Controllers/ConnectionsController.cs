@@ -39,7 +39,7 @@ public class ConnectionsController : Controller
     {
         var user = await _userManager.GetUserAsync(User);
         await _connectionService.AddConnectionAsync(user.Id, friendId);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Connections");
     }
 
     [HttpPost]

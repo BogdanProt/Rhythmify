@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rhythmify.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Rhythmify.Controllers
 {
@@ -28,20 +29,19 @@ namespace Rhythmify.Controllers
             _roleManager = roleManager;
         }
 
-        // GET: Playlist
+        [Authorize]
         public ActionResult Index()
         {
             var playlists = db.Playlists.Include(p => p.User).ToList();
             return View(playlists);
         }
 
-        // GET: Playlist/New
+        [Authorize]
         public ActionResult New()
         {
             return View();
         }
 
-        // POST: Playlist/New
         [HttpPost]
         public ActionResult New(Playlist playlist)
         {
@@ -51,12 +51,13 @@ namespace Rhythmify.Controllers
                 playlist.User = db.Users.Find(userId);
                 db.Playlists.Add(playlist);
                 db.SaveChanges();
-                return RedirectToAction("Show","Profiles",new { id = playlist.User.DisplayName });
+                return RedirectToAction("Show","Profiles",new { id = playlist.User.UserName });
             }
 
             return View(playlist);
         }
 
+        [Authorize]
         public ActionResult Show(int id)
         {
             Playlist playlist = db.Playlists
@@ -66,6 +67,5 @@ namespace Rhythmify.Controllers
             return View(playlist);
         }
 
-        // Other actions (Edit, Delete, Details, etc.) can be added here
     }
 }

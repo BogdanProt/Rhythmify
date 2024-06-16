@@ -22,27 +22,20 @@
             Song s = new Song();
             s.Title = item.Name;
             s.Artist = item.Artists[0].Name;
-            s.Genre = "idk";
+            s.Genre = "WIP";
             s.CoverPicture = item.Album.Images[0].Url;
             s.AverageRating = 0;
             s.PreviewUrl = item.Uri;
             <form asp-action="Index" method="post">
                 <input type="hidden" name="song.Title" value="@item.Name" />
                 <input type="hidden" name="song.Artist" value="@item.Artists[0].Name" />
-                <input type="hidden" name="song.Genre" value="idk" />
+                <input type="hidden" name="song.Genre" value="WIP" />
                 <input type="hidden" name="song.CoverPicture" value="@item.Album.Images[0].Url" />
                 <input type="hidden" name="song.AverageRating" value="0" />
                 <input type="hidden" name="song.PreviewUrl" value="@item.Uri" />
                 @Html.DropDownList("playlistId", new SelectList(ViewBag.Playlists, "Value", "Text"), null, new { @class = "form-control" })
                 <button class="btn btn-sm btn-success" type="submit">Add to Playlist</button>
             </form>
-            //to add button to add song to playlist
-            /*
-                <form asp-action="RemoveConnection" method="post">
-                <input type="hidden" name="friendId" value="@user.Id" />
-                <button type="submit">Remove follow</button>
-                </form>
-                */
         }
     </ul>
     <script src="https://open.spotify.com/embed/iframe-api/v1" async=""></script>

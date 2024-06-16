@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Rhythmify.Data;
@@ -26,11 +27,12 @@ namespace Rhythmify.Controllers
 
             _roleManager = roleManager;
         }
+        [Authorize]
         public IActionResult Show(String id)
         {
             try
             {
-                User u = db.Users.Where(u => u.DisplayName == id).FirstOrDefault();
+                User u = db.Users.Where(u => u.UserName == id).FirstOrDefault();
                 ViewBag.Followers = db.Connections.Where(us => us.FriendId == u.Id).Count();
                 List<Post> posts=db.Posts.Where(p=>p.UserId==u.Id).ToList();
                 ViewBag.Posts = posts;
@@ -41,6 +43,10 @@ namespace Rhythmify.Controllers
                 if(playlists!=null)
                     ViewBag.PlaylistCount=playlists.Count();
                 ViewBag.Playlists = playlists;
+                Connection c = db.Connections.Where(c => c.FriendId == u.Id && c.UserId == _userManager.GetUserId(User)).FirstOrDefault();
+                if (c != null)
+                    ViewBag.Connected = true;
+                else ViewBag.Connected = false;
                 return View(u);
             }
             catch (Exception ex)

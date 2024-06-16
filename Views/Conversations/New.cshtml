@@ -1,13 +1,9 @@
 ﻿@model Rhythmify.Models.User
+@{
+    ViewBag.Title = "New Conversation";
+}
 
-<style>
-    body {
-        margin-bottom: 60px;
-        background-color: #cf8955;
-        background-size: 100%;
-    }
-</style>
-<h2 class="text-center mt-5">Adaugare conversatie</h2>
+<h2 class="text-center mt-5">New Conversation</h2>
 <br />
 <div class="container mt-5">
     <div class="row">
@@ -19,12 +15,12 @@
 
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-                @Html.Label("DisplayName", "Display name-ul cautat")
+                @Html.Label("Username", "Username-ul cautat")
                 <br />
-                @Html.TextBox("DisplayName", null, new { @class = "form-control" })
+                @Html.TextBox("Username", null, new { @class = "form-control" })
                 <br /><br />
 
-                <button class="btn btn-success" type="submit">Creeaza conversatie</button>
+                <button class="btn btn-success" type="submit">Create</button>
 
             }
 

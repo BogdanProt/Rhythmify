@@ -1,16 +1,10 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Conversations";
 }
-<style>
-    body {
-        margin-bottom: 60px;
-        background-color: #cf8955;
-        background-size: 100%;
-    }
-</style>
+
 <br />
 
-<h2 class="text-center">Afisare conversatii</h2>
+<h2 class="text-center">Conversations</h2>
 
 <br />
 @{
@@ -24,20 +18,27 @@
     </div>
 }
 
+<div class="d-flex justify-content-center">
+    <a class="btn btn-outline-success" href="/Conversations/New">New Conversation</a>
+    <br />
+</div>
+
 <br />
 @{
     ViewBag.Index = -1;
+    ViewBag.AreConv = false;
 }
 @foreach (Rhythmify.Models.Conversation conversation in ViewBag.Conversations)
 {
     <div class="card">
         @{
+            ViewBag.AreConv = true;
             ViewBag.Index += 1;
         }
         @Html.Partial("ConversationInfo", conversation, new ViewDataDictionary(ViewData) { })
 
 
-        <a class="btn btn-success" href="/Conversations/Show/@conversation.Id">Afisare conversatie</a>
+        <a class="btn btn-success" href="/Conversations/Show/@conversation.Id">Show Conversation</a>
 
     </div>
 
@@ -45,4 +46,15 @@
     <br />
 
 }
+
+@if (ViewBag.ArePostari == false)
+{
+    <div class="text-center">
+        <h4>
+            No conversations? Try
+            <a class="d-inline" asp-area="" asp-controller="Conversations" asp-action="New">starting a new one</a>!
+        </h4>
+    </div>
+}
+
 

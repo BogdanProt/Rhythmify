@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Rhythmify.Data;
 using Rhythmify.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Rhythmify.Controllers
 {
@@ -33,6 +34,7 @@ namespace Rhythmify.Controllers
             _roleManager = roleManager;
         }
         [HttpGet]
+        [Authorize]
         public IActionResult Index()
         {
             ViewBag.Playlists = GetAllPlaylists();
@@ -40,6 +42,7 @@ namespace Rhythmify.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Search(string query)
         {
             var result = await _spotifyService.SearchTracksAsync(query);
@@ -47,10 +50,14 @@ namespace Rhythmify.Controllers
             return View("Index", result);
         }
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> Index(Song song, [FromForm] string playlistId)
         {
             var existingSong = await db.Songs.SingleOrDefaultAsync(s => s.PreviewUrl == song.PreviewUrl);
-            var playlist = await db.Playlists.FindAsync(Int32.Parse(playlistId));
+            var playlist = await db.Playlists
+                .Include(p => p.PlaylistSongs)
+                    .ThenInclude(ps => ps.Song)
+                .FirstOrDefaultAsync(p => p.Id == Int32.Parse(playlistId));
 
             if (playlist != null)
             {
@@ -60,16 +67,26 @@ namespace Rhythmify.Controllers
                 if (existingSong == null)
                 {
                     db.Songs.Add(song);
+                    await db.SaveChangesAsync();
                     existingSong = song;
                 }
+                else
+                {
+                    // Attach the existing song to the context if not already attached
+                    if (!db.Entry(existingSong).IsKeySet)
+                    {
+                        db.Songs.Attach(existingSong);
+                    }
+                }
+
+                // Ensure the PlaylistSongs collection is initialized
                 if (playlist.PlaylistSongs == null)
                 {
                     playlist.PlaylistSongs = new List<PlaylistSong>();
-                    playlist.PlaylistSongs.Add(new PlaylistSong { PlaylistId = playlist.Id, SongId = existingSong.Id, TimeAdded=DateTime.Now });
-                    await db.SaveChangesAsync(); // Await the SaveChangesAsync call
                 }
 
-                else if (!playlist.PlaylistSongs.Any(ps => ps.SongId == existingSong.Id))
+                // Add the song to the playlist if it's not already added
+                if (!playlist.PlaylistSongs.Any(ps => ps.SongId == existingSong.Id))
                 {
                     playlist.PlaylistSongs.Add(new PlaylistSong { PlaylistId = playlist.Id, SongId = existingSong.Id, TimeAdded=DateTime.Now });
                     await db.SaveChangesAsync(); // Await the SaveChangesAsync call

@@ -1,6 +1,10 @@
 ﻿@model Rhythmify.Models.Post
 
-<h2 class="text-center mt-5">Editare articol</h2>
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 class="text-center mt-5">Edit Post</h2>
 
 <br />
 
@@ -13,7 +17,7 @@
 
                 <br />
 
-                @Html.Label("Content", "Continut Postare")
+                @Html.Label("Content", "Content")
 
                 <br />
 
@@ -26,7 +30,7 @@
 
                 <br />
 
-                <button class="btn btn-success" type="submit">Adauga postare</button>
+                <button class="btn btn-success" type="submit">Add post</button>
             }
         </div>
     </div>

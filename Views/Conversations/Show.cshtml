@@ -1,5 +1,7 @@
 ﻿@model Rhythmify.Models.Conversation
-
+@{
+    ViewBag.Title = "Conversation";
+}
 @* Afisarea unei conversatii *@
 
 @if (TempData["message"] != null)
@@ -23,33 +25,31 @@
 
 @foreach (var msg in Model.Messages)
 {
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-
+    <div class="container my-3">
+        <div class="row justify-content-center">
             <div class="col-md-8">
 
-                <div>
-
-                    <p>@msg.Content</p>
-                    <small>@msg.Timestamp</small>
-                    <strong><i class="bi bi-person"></i>@msg.Sender.UserName</strong>
-
+                <div class="p-3 border rounded shadow-sm">
+                    <div class="d-flex align-items-center mb-2">
+                        <a href="/Profiles/Show/@msg.Sender.UserName">
+                            <img src="@msg.Sender.ProfilePicture" alt="@msg.Sender.DisplayName's Profile Picture" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                        </a>
+                        <div>
+                            <a href="/Profiles/Show/@msg.Sender.UserName" class="text-decoration-none text-reset">
+                            <strong>@msg.Sender.DisplayName</strong>
+                            </a>
+                            <br>
+                            <small class="text-muted">@msg.Timestamp</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">@msg.Content</p>
                 </div>
-                <br>
-
-                @* to add edit and delete by adding access rights*@
-
-                <br />
 
             </div>
-
-            <div class="col-md-2"></div>
-
         </div>
-
     </div>
 }
+
 
 @* Afisarea formularului in care se poate adauga un mesaj *@
 

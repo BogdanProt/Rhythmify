@@ -1,6 +1,9 @@
 ﻿@model Rhythmify.Models.Playlist
 
 @* Afisarea unei conversatii *@
+@{
+    ViewBag.Title = Model.Title;
+}
 
 @if (TempData["message"] != null)
 {
@@ -11,40 +14,32 @@
 
 <br />
 
-<div class="card">
-
-    <h3>Playlist: @Model.Title</h3>
+<div class="card mb-4 shadow-sm">
+    <div class="card-header text-white bg-primary">
+        <h3 class="card-title mb-0">Playlist: @Model.Title</h3>
+    </div>
+    <div class="card-body">
+        <p class="card-text">@Model.Description</p>
+    </div>
 </div>
 
-<br />
-<br />
-
 @* Afisare melodii impreuna cu butoanele de editare si stergere *@
-@foreach (var msg in Model.PlaylistSongs)
-{
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-
-            <div class="col-md-8">
-
-                <div>
-
-                    <p>@msg.Song.Artist - @msg.Song.Title</p>
-                    <small>@msg.TimeAdded</small>
-
+<div class="container">
+    <div class="row">
+        @foreach (var msg in Model.PlaylistSongs)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="@msg.Song.CoverPicture" class="card-img-top" alt="Cover Picture of @msg.Song.Title" style="height: 150px; object-fit: cover;">
+                    <div class="card-body">
+                        <h6 class="card-title">@msg.Song.Artist - @msg.Song.Title</h6>
+                        <small class="text-muted">Added on: @msg.TimeAdded</small>
+                        <div class="mt-2">
+                            <a href="@msg.Song.PreviewUrl" class="btn btn-primary btn-sm" target="_blank">Preview</a>
+                        </div>
+                    </div>
                 </div>
-                <br>
-
-                @* to add edit and delete by adding access rights*@
-
-                <br />
-
             </div>
-
-            <div class="col-md-2"></div>
-
-        </div>
-
+        }
     </div>
-}
+</div>

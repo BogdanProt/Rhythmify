@@ -1,10 +1,10 @@
 ﻿@model Rhythmify.Models.Playlist
 
 @{
-    ViewBag.Title = "Create Playlist";
+    ViewBag.Title = "New Playlist";
 }
 
-<h2 class="text-center mt-5">Adaugare playlist</h2>
+<h2 class="text-center mt-5">Add playlist</h2>
 
 <br />
 
@@ -14,34 +14,26 @@
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             @using (Html.BeginForm(actionName: "New", controllerName: "Playlists"))
             {
-
-                @Html.Label("Title", "Titlu")
-
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, "Title")
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
                 <br />
 
-                @Html.TextArea("Title", null, new { @class = "form-control" })
-
-                @Html.ValidationMessage("Title", null, new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, "Description")
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
                 <br />
 
-                <br />
-                @Html.Label("Description", "Descriere")
-
-                <br />
-
-                @Html.TextArea("Description", null, new { @class = "form-control" })
-
-                @Html.ValidationMessage("Description", null, new { @class = "text-danger" })
-                <br />
-
-                <br />
-                //adauga piesa si alte detalii
-
-                <button class="btn btn-success" type="submit">Adauga playlist</button>
+                <button class="btn btn-success" type="submit">Add Playlist</button>
             }
         </div>
     </div>
 </div>
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

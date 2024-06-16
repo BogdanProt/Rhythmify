@@ -113,10 +113,17 @@ namespace Rhythmify.Controllers
         public IActionResult Delete(string id)
         {
             var user = db.Users.Include("Posts")
-                         .Include("Playlists")
-                         .Include("Feeds")
-                         .Where(u => u.Id == id)
-                         .First();
+                 .Include("Playlists")
+                 .Include("Conversations")
+                 .Include("Connections")
+                 .Where(u => u.Id == id)
+                 .FirstOrDefault();
+
+            if (user == null)
+            {
+                // Handle user not found, possibly return an error view or message
+                return NotFound();
+            }
 
             // Delete user posts
             if (user.Posts.Count > 0)
@@ -126,6 +133,8 @@ namespace Rhythmify.Controllers
                     db.Posts.Remove(post);
                 }
             }
+
+            // Delete user playlists
             if (user.Playlists.Count > 0)
             {
                 foreach (var playlist in user.Playlists)
@@ -133,18 +142,35 @@ namespace Rhythmify.Controllers
                     db.Playlists.Remove(playlist);
                 }
             }
-            if (user.Feeds.Count > 0)
+
+            // Delete user conversations
+            var conversations = db.Conversations
+                                  .Where(c => c.User1Id == id || c.User2Id == id)
+                                  .ToList();
+            if (conversations.Count > 0)
             {
-                foreach (var feed in user.Feeds)
+                foreach (var conversation in conversations)
                 {
-                    db.Feeds.Remove(feed);
+                    db.Conversations.Remove(conversation);
                 }
             }
 
-            //might need to delete user playlists
+            // Delete user connections
+            var connections = db.Connections
+                                .Where(c => c.UserId == id || c.FriendId == id)
+                                .ToList();
+            if (connections.Count > 0)
+            {
+                foreach (var connection in connections)
+                {
+                    db.Connections.Remove(connection);
+                }
+            }
 
+            // Remove the user
             db.Users.Remove(user);
 
+            // Save changes to the database
             db.SaveChanges();
 
             return RedirectToAction("Index");

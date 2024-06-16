@@ -1,12 +1,8 @@
 ﻿@model Rhythmify.Models.User
+@{
+    ViewBag.Title = "Show User";
+}
 
-<style>
-    body {
-        margin-bottom: 60px;
-        background-color: #a29de3;
-        background-size: 100%;
-    }
-</style>
 <div class="card mt-3" style="height:100%; width: 100%;">
 
     <div class="card-body d-flex justify-content-between flex-column">
@@ -41,7 +37,7 @@
                 @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", method: FormMethod.Post, routeValues: new { id = @Model.Id }))
                 {
 
-                    <button class="btn btn-danger" type="submit">Sterge utilizator</button>
+                    <button class="btn btn-danger" type="submit">Delete user</button>
 
                 }
             }
