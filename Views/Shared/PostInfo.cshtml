@@ -1,15 +1,20 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@{
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var isCurrentPagePost = currentAction == "Show" && currentController == "Posts";
+}
 <div class="card mb-3 shadow-sm">
     <div class="card-body">
         <div class="d-flex align-items-center mb-3">
             <a href="/Profiles/Show/@Model.User.UserName">
-            <img src="@Model.User.ProfilePicture" alt="@Model.User.UserName's Profile Picture" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                <img src="@Model.User.ProfilePicture" alt="@Model.User.UserName's Profile Picture" class="rounded-circle me-3" style="width: 50px; height: 50px;">
             </a>
             <div>
                 <a href="/Profiles/Show/@Model.User.UserName" class="text-decoration-none text-reset">
-                <h5 class="mb-0">@Model.User.DisplayName</h5>
+                    <h5 class="mb-0">@Model.User.UserName</h5>
                 </a>
                 <small class="text-muted">@Model.User.Description</small>
             </div>
@@ -19,7 +24,10 @@
     <div class="card-footer d-flex justify-content-between">
         <span class="text-muted">@Model.Timestamp.ToString("f")</span> <!-- Changed from Date to Timestamp -->
         <div>
-            <a class="btn btn-success" href="/Posts/Show/@Model.Id">Show Post</a>
+            @if (!isCurrentPagePost)
+            {
+                <a class="btn btn-success" href="/Posts/Show/@Model.Id">Show Post</a>
+            }
         </div>
     </div>
 </div>

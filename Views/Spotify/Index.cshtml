@@ -1,54 +1,58 @@
 ﻿@model SpotifyAPI.Web.SearchResponse
-@if (TempData["Playlists"]!=null)
+@if (TempData["Playlists"] != null)
 {
     ViewBag.Playlists = TempData["Playlists"];
 }
-<h1>Search Spotify Tracks</h1>
-<form method="post" asp-action="Search">
-    <input type="text" name="query" placeholder="Enter song name" />
-    <button type="submit">Search</button>
+
+<h1 class="my-4">Search Spotify Tracks</h1>
+<form method="post" asp-action="Search" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="query" class="form-control" placeholder="Enter song name" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
 </form>
 
 @if (Model != null && Model.Tracks != null && Model.Tracks.Items != null)
 {
     int i = 0;
-    <ul>
+    <ul class="list-group">
         @foreach (var item in Model.Tracks.Items)
         {
             i += 1;
-            <li>@item.Name by @item.Artists[0].Name</li>
-            <div id="embed-iframe-@i"></div>
-            <label><b>Selectati rolul</b></label>
-            Song s = new Song();
-            s.Title = item.Name;
-            s.Artist = item.Artists[0].Name;
-            s.Genre = "WIP";
-            s.CoverPicture = item.Album.Images[0].Url;
-            s.AverageRating = 0;
-            s.PreviewUrl = item.Uri;
-            <form asp-action="Index" method="post">
-                <input type="hidden" name="song.Title" value="@item.Name" />
-                <input type="hidden" name="song.Artist" value="@item.Artists[0].Name" />
-                <input type="hidden" name="song.Genre" value="WIP" />
-                <input type="hidden" name="song.CoverPicture" value="@item.Album.Images[0].Url" />
-                <input type="hidden" name="song.AverageRating" value="0" />
-                <input type="hidden" name="song.PreviewUrl" value="@item.Uri" />
-                @Html.DropDownList("playlistId", new SelectList(ViewBag.Playlists, "Value", "Text"), null, new { @class = "form-control" })
-                <button class="btn btn-sm btn-success" type="submit">Add to Playlist</button>
-            </form>
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>@item.Name</strong> by <em>@item.Artists[0].Name</em>
+                        <div id="embed-iframe-@i" class="mt-2"></div>
+                    </div>
+                    <div>
+                        <Song s=new Song(); s.Title=item.Name; s.Artist=item.Artists[0].Name; s.Genre="WIP" ; s.CoverPicture=item.Album.Images[0].Url; s.AverageRating=0; s.PreviewUrl=item.Uri;>
+                            <form asp-action="Index" method="post" class="d-flex align-items-center">
+                                <input type="hidden" name="song.Title" value="@item.Name" />
+                                <input type="hidden" name="song.Artist" value="@item.Artists[0].Name" />
+                                <input type="hidden" name="song.Genre" value="WIP" />
+                                <input type="hidden" name="song.CoverPicture" value="@item.Album.Images[0].Url" />
+                                <input type="hidden" name="song.AverageRating" value="0" />
+                                <input type="hidden" name="song.PreviewUrl" value="@item.Uri" />
+                                @Html.DropDownList("playlistId", new SelectList(ViewBag.Playlists, "Value", "Text"), null, new { @class = "form-select me-2" })
+                                <button class="btn btn-success btn-sm" type="submit">Add to Playlist</button>
+                            </form>
+                    </div>
+                </div>
+            </li>
         }
     </ul>
-    <script src="https://open.spotify.com/embed/iframe-api/v1" async=""></script>
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <script>
         window.onSpotifyIframeApiReady = (IFrameAPI) => {
         @for (int j = 1; j <= i; j++)
         {
             <text>
-                IFrameAPI.createController(document.getElementById('embed-iframe-@j'), {
-                    width: '50%',
-                    height: '160',
-                    uri: '@Model.Tracks.Items[j-1].Uri'
-                }, (EmbedController) => { });
+                    IFrameAPI.createController(document.getElementById('embed-iframe-@j'), {
+                        width: '100%',
+                        height: '80',
+                        uri: '@Model.Tracks.Items[j - 1].Uri'
+                    }, (EmbedController) => { });
             </text>
         }
                 };

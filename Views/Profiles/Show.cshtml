@@ -72,18 +72,40 @@
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <h3>Posts</h3>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3>Posts</h3>
+                        <a href="@Url.Action("New", "Posts")" class="btn btn-success">New Post</a>
+                    </div>
                     <div class="post-list">
+                        @{
+                            ViewBag.PostsExist = false;
+                        }
                         @foreach (Rhythmify.Models.Post post in ViewBag.Posts)
                         {
+                            ViewBag.PostsExist = true;
                             @Html.Partial("PostInfo", post)
                         }
+                        @if (ViewBag.PostsExist == false)
+                        {
+                            <p>The user has not made any posts yet.</p>
+                        }
                     </div>
-                    <h3 class="mt-4">Playlists</h3>
+                    <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+                        <h3>Playlists</h3>
+                        <a href="@Url.Action("New", "Playlists")" class="btn btn-success">New Playlist</a>
+                    </div>
                     <div class="playlist-list">
+                        @{
+                            ViewBag.PlaylistsExist = false;
+                        }
                         @foreach (Rhythmify.Models.Playlist playlist in ViewBag.Playlists)
                         {
+                            ViewBag.PlaylistsExist = true;
                             @Html.Partial("PlaylistInfo", playlist)
+                        }
+                        @if (ViewBag.PlaylistsExist == false)
+                        {
+                            <p>The user has not made any playlists yet.</p>
                         }
                     </div>
                 </div>

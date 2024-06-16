@@ -1,11 +1,12 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Rhythmify.Models.Playlist
+
 <div class="card mb-4 shadow-sm">
-    <div class="card-header text-white bg-primary">
-        <h3 class="card-title mb-0">
-            @Model.Title
-        </h3>
+    <div class="card-header text-white bg-primary d-flex align-items-center">
+        <img src="@Model.User.ProfilePicture" alt="@Model.User.UserName's Profile Picture" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+        <div>
+            <h3 class="card-title mb-0">@Model.Title</h3>
+            <small class="text-light">by @Model.User.DisplayName</small>
+        </div>
     </div>
     <div class="card-body">
         <p class="card-text">@Model.Description</p>

@@ -11,24 +11,18 @@
     </div>
 }
 
-<br />
-
-<div class="card">
-
-    <h3>Conversatie intre @Model.User1.DisplayName si @Model.User2.DisplayName</h3>
+<div class="card mb-4">
+    <div class="card-body">
+        <h3 class="card-title">Conversatie intre @Model.User1.DisplayName si @Model.User2.DisplayName</h3>
+    </div>
 </div>
 
-<br />
-<br />
-
 @* Afisare comentarii impreuna cu butoanele de editare si stergere *@
-
 @foreach (var msg in Model.Messages)
 {
     <div class="container my-3">
         <div class="row justify-content-center">
             <div class="col-md-8">
-
                 <div class="p-3 border rounded shadow-sm">
                     <div class="d-flex align-items-center mb-2">
                         <a href="/Profiles/Show/@msg.Sender.UserName">
@@ -36,7 +30,7 @@
                         </a>
                         <div>
                             <a href="/Profiles/Show/@msg.Sender.UserName" class="text-decoration-none text-reset">
-                            <strong>@msg.Sender.DisplayName</strong>
+                                <strong>@msg.Sender.DisplayName</strong>
                             </a>
                             <br>
                             <small class="text-muted">@msg.Timestamp</small>
@@ -44,52 +38,28 @@
                     </div>
                     <p class="mb-0">@msg.Content</p>
                 </div>
-
             </div>
         </div>
     </div>
 }
 
-
 @* Afisarea formularului in care se poate adauga un mesaj *@
-
-<div class="container">
-
-    <div class="row">
-
-        <div class="col-md-2"></div>
-
+<div class="container mt-4">
+    <div class="row justify-content-center">
         <div class="col-md-8">
-
             <div class="card">
-
-                <form method="post" action="/Conversations/Show/@Model.Id">
-
-                    <div class="card-body">
-
+                <div class="card-body">
+                    <form method="post" action="/Conversations/Show/@Model.Id">
                         <input type="hidden" name="ConversationID" value="@Model.Id" />
-
-                        <label>Continut mesaj</label>
-
-                        <br />
-
-                        @Html.TextArea("Content", null, new { @class = "summernote" })
-                        @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
-
-                        <br /><br />
-
-                        <button class="btn btn-success " type="submit">Adauga mesajul</button>
-
-                    </div>
-
-                </form>
-
+                        <div class="mb-3">
+                            <label for="Content" class="form-label">Continut mesaj</label>
+                            @Html.TextArea("Content", null, new { @class = "form-control summernote", @id = "Content" })
+                            @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+                        </div>
+                        <button class="btn btn-success" type="submit">Adauga mesajul</button>
+                    </form>
+                </div>
             </div>
-
         </div>
-
-        <div class="col-md-2"></div>
-
     </div>
-
 </div>

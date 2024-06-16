@@ -42,26 +42,20 @@
                             var roles = await UserManager.GetRolesAsync(user);
                             if (roles.Contains("Admin") || roles.Contains("User"))
                             {
-                                if(roles.Contains("Admin"))
+                                if (roles.Contains("Admin"))
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Panel</a>
                                     </li>
                                 }
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Profiles" asp-action="Show" asp-route-id="@username">Profil</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Feed</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Postari</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Conversations" asp-action="Index">Conversations</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Conversations" asp-action="Index">Conversatii</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Spotify" asp-action="Index">Search Spotify</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Playlists" asp-action="New">Playlist nou</a>
+                                    <a class="nav-link text-dark" asp-controller="Spotify" asp-action="Index">Tracks</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Connections" asp-action="Index">Social</a>

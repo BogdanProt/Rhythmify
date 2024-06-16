@@ -7,21 +7,14 @@
     ? this.ViewData["userId"].ToString() : string.Empty;
 }
 
-<div class="card-body">
 
-    <h3 class="card-title alert-success py-3 px-3 rounded-2">
-        @{
-            if (currentUserId != null)
-            {
-                displayName = ViewBag.ReceiverUsers[ViewBag.Index].DisplayName;
-            }
-            else
-            {
-                displayName = "Failed";
-            }
-        }
-        @displayName
-    </h3>
 
-</div>
-
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <img src="@ViewBag.ReceiverUsers[ViewBag.Index].ProfilePicture" alt="@displayName's Profile Picture" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+            <div>
+            <h5 class="mb-0">@ViewBag.ReceiverUsers[ViewBag.Index].DisplayName</h5>
+                <small class="text-muted">@ViewBag.ReceiverUsers[ViewBag.Index].UserName</small>
+            </div>
+        </div>
+    </div>

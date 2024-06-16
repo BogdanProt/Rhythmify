@@ -1,6 +1,7 @@
 ﻿@model Rhythmify.Models.Playlist
-
-@* Afisarea unei conversatii *@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@* Afisarea unui playlist *@
 @{
     ViewBag.Title = Model.Title;
 }
@@ -15,12 +16,23 @@
 <br />
 
 <div class="card mb-4 shadow-sm">
-    <div class="card-header text-white bg-primary">
-        <h3 class="card-title mb-0">Playlist: @Model.Title</h3>
+    <div class="card-header text-white bg-primary d-flex align-items-center">
+        <img src="@Model.User.ProfilePicture" alt="@Model.User.UserName's Profile Picture" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+        <div>
+            <h3 class="card-title mb-0">@Model.Title</h3>
+            <small class="text-light">by @Model.User.DisplayName</small>
+        </div>
     </div>
     <div class="card-body">
         <p class="card-text">@Model.Description</p>
+        @if (await UserManager.GetUserIdAsync(UserManager.GetUserAsync(User).Result) == Model.User.Id)
+        {
+            <form method="post" action="/Playlists/Delete/@Model.Id">
+                <button class="btn btn-danger" type="submit">Sterge playlist</button>
+            </form>
+        }
     </div>
+    
 </div>
 
 @* Afisare melodii impreuna cu butoanele de editare si stergere *@

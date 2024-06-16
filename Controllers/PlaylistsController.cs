@@ -5,6 +5,7 @@ using Rhythmify.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using SpotifyAPI.Web;
 
 namespace Rhythmify.Controllers
 {
@@ -61,11 +62,22 @@ namespace Rhythmify.Controllers
         public ActionResult Show(int id)
         {
             Playlist playlist = db.Playlists
+                .Include(p => p.User)
     .Include(p => p.PlaylistSongs)
         .ThenInclude(ps => ps.Song)
     .FirstOrDefault(p => p.Id == id);
             return View(playlist);
         }
-
+        [HttpPost]
+        [Authorize]
+        public ActionResult Delete(int id)
+        {
+            Playlist playlist = db.Playlists.Find(id);
+            db.Playlists.Remove(playlist);
+            db.SaveChanges();
+            TempData["message"] = "Playlist sters";
+            String username = _userManager.GetUserName(User);
+            return RedirectToAction("Show", "Profiles", new { id = username });
+        }
     }
 }
