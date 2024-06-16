@@ -6,12 +6,14 @@ Rhythmify este o platforma de socializare web care pune accentul pe conexiunile 
 
 **User Stories**
 1.	Ca utilizator nou, vreau sa imi pot crea cont in aplicatie folosind adresa de email, pentru a avea acces la toate functionalitatile aplicatiei.
-2.	Ca utilizator inregistrat, vreau sa pot personaliza profilul meu cu o fotografie de profil, o descriere si detalii despre gusturile mele muzicale, pentru a impartasi aceste informatii cu alti utilizatori.
-3.	Ca utilizator, vreau sa pot asculta preview-uri ale melodiilor si sa pot adauga melodii la lista mea de melodii favorite, pentru a le afisa ulterior pe profil.
-4.	Ca utilizator, vreau sa pot cauta preview-uri la melodii in aplicatie, pentru a gasi melodii noi pe placul meu.
-5.	Ca utilizator, vreau sa ma pot conecta cu diferiti utilizatori ai aplicatiei, pentru a gasi persoane cu gusturi muzicale asemanatoare.
-6.	Ca utilizator, vreau sa pot distribui melodiile ascultate sub forma unor postari, pentru a informa prietenii mei de ascultarile recente sau melodiile favorite.
-7.	Ca utilizator, vreau sa pot interactiona cu alti utilizatori prin intermediul mesajelor private, pentru a discuta despre muzica si pentru a face recomandari.
-8.	Ca utilizator, vreau sa pot marca melodiile ca fiind preferate sau sa le evaluez pentru a le arata alti utilizatori cat de mult imi plac, si pentru a contribui la clasamentele si recomandarile din aplicatie.
+2.  Ca utilizator nou, vreau sa ma pot inregistra pe aplicatie folosind propriul cont de Spotify, pentru a avea acces la functionalitatile premium ale abonamentului.
+3.	Ca utilizator inregistrat, vreau sa pot personaliza profilul meu cu o fotografie de profil si o descriere pentru a impartasi aceste informatii cu alti utilizatori.
+4.  Ca utilizator, vreau sa pot crea playlist-uri cu melodii, pentru a separa gusturile muzicale in mai multe liste.
+5.	Ca utilizator, vreau sa pot asculta preview-uri ale melodiilor, pentru a gasi muzica noua pe placul meu.
+6.	Ca utilizator, vreau sa pot cauta preview-uri la melodii in aplicatie, pentru a le adauga in playlist.
+7.	Ca utilizator, vreau sa ma pot conecta cu diferiti utilizatori ai aplicatiei, pentru a gasi persoane cu gusturi muzicale asemanatoare.
+8.	Ca utilizator, vreau sa pot interactiona cu alti utilizatori prin intermediul mesajelor private, pentru a discuta despre muzica si pentru a face recomandari.
 9.	Ca utilizator, vreau sa am optiunea de a imi sterge contul, pentru a ma deconecta cu totul de aplicatie.
-10.	Ca utilizator, vreau sa pot face liste cu preview-uri muzicale, pentru a le distribui intr-o postare sau pentru a le trimite direct altei persoane.
+10. Ca utilizator, vreau sa am optiunea de a adauga postari, pentru a impartasi idei si gusturi muzicale cu alti utilizatori.
+11. Ca utilizator, vreau sa pot vedea postarile persoanelor pe care le urmaresc, pentru a fi la curent cu noutatile sociale.
+12. Ca utilizator, vreau sa pot reactiona cu like-uri sau comentarii la postarile altora, pentru a discuta si interactiona legat de tema postarii.
