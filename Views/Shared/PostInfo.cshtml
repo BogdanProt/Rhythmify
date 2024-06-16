@@ -4,7 +4,9 @@
 <div class="card-body">
 
     <h3 class="card-title alert-success py-3 px-3 rounded-2">
-        @Model.User.UserName
+        <a href="@Url.Action("Show", "Profiles", new { id = Model.User.DisplayName ?? Model.User.Email })">
+            @(Model.User.DisplayName ?? Model.User.Email)
+        </a>
     </h3>
 
     <div class="card-text">@Model.Content</div>
