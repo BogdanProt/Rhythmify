@@ -18,6 +18,6 @@ Rhythmify este o platforma de socializare web care pune accentul pe conexiunile 
 11. Ca utilizator, vreau sa pot vedea postarile persoanelor pe care le urmaresc, pentru a fi la curent cu noutatile sociale.
 12. Ca utilizator, vreau sa pot reactiona cu like-uri sau comentarii la postarile altora, pentru a discuta si interactiona legat de tema postarii.
 
-
+Demo: https://youtu.be/ThaTXaCsmbg
 
 <img width="924" alt="image" src="https://github.com/BogdanProt/Rhythmify/assets/92607347/f0ae1260-30a2-4cdb-af2e-a0d43b070812">
