@@ -7,7 +7,7 @@ namespace Rhythmify.Services
         private readonly SpotifyClient _spotifyClient;
         public SpotifyService(SpotifyClientConfig spotifyClientConfig)
         {
-            var request = new ClientCredentialsRequest("d2d70f2bfbfb4f2594339fc8916b16a1", "3894a81b65754b039d84817bb52ea144");
+            var request = new ClientCredentialsRequest("CLIENT_ID", "CLIENT_SECRET");
             var response = new OAuthClient().RequestToken(request).Result;
             _spotifyClient = new SpotifyClient(response.AccessToken);
         }
